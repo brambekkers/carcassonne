@@ -1,9 +1,8 @@
 <template>
-	<div class="board" :style="boardStyles">
-		<div v-for="row of board" class="row">
-			<div v-for="cell of row" class="cell">
-				{{cell}}
-				<Tile :tile="cell" />
+	<div id="board" :style="boardStyles">
+		<div v-for="(row, y) of board" class="row">
+			<div v-for="(cell, x) of row" class="cell">
+				<Tile :tile="cell" :x="x" :y="y" />
 			</div>
 		</div>
 	</div>
@@ -15,6 +14,12 @@
 
 	export default {
 		components: { Tile },
+		data() {
+			return {
+				pos: { top: 0, left: 0, x: 0, y: 0 },
+				dragEl: null
+			};
+		},
 		computed: {
 			...mapGetters(["tiles", "board", "boardSize", "tileSize"]),
 			boardStyles() {
@@ -35,7 +40,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.board {
+	#board {
 		display: flex;
 		flex-direction: column;
 		.row {
@@ -44,8 +49,7 @@
 
 			.cell {
 				width: 100%;
-				opacity: 0.3;
-				border: solid 1px red;
+				margin: 0.2rem;
 			}
 		}
 	}

@@ -2,17 +2,36 @@
 	<div class="tile" :style="tileStyles" v-if="tile">
 		<DebugTile v-if="debugMode" :format="tile.format" />
 	</div>
-	<div class="tile" :style="backStyles" v-else />
+	<GhostTile
+		@mouseleave="hover = false"
+		:tile="hover ? nextTile: null"
+		v-else-if="nextTile && hover"
+		:x="x"
+		:y="y"
+	/>
+	<div
+		class="tile back"
+		:style="backStyles"
+		v-else
+		@mouseover="hover = true"
+		@mouseleave="hover = false"
+	/>
 </template>
 
 <script>
 	import { mapGetters } from "vuex";
 	import DebugTile from "@/components/board/DebugTile.vue";
+	import GhostTile from "@/components/board/GhostTile.vue";
 	export default {
-		props: ["tile"],
-		components: { DebugTile },
+		props: ["tile", "x", "y"],
+		data() {
+			return {
+				hover: false
+			};
+		},
+		components: { DebugTile, GhostTile },
 		computed: {
-			...mapGetters(["debugMode", "tileColors"]),
+			...mapGetters(["debugMode", "tileColors", "tileBacks", "nextTile"]),
 			tileStyles() {
 				return {
 					backgroundImage: `url('/${this.tile.src}')`
@@ -20,7 +39,10 @@
 			},
 			backStyles() {
 				return {
-					backgroundImage: `url('/images/tiles/BackEmpty.png')`
+					backgroundImage:
+						this.debugMode && this.tileBacks
+							? `url('/images/tiles/BackLogo.png')`
+							: ""
 				};
 			}
 		}
@@ -34,5 +56,13 @@
 		height: 200px;
 		width: 200px;
 		border-radius: 5%;
+		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+		overflow: hidden;
+	}
+
+	.back {
+		background: rgba(0, 0, 0, 00.2);
+		background-origin: center;
+		background-size: cover;
 	}
 </style>

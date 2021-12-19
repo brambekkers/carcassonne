@@ -1,5 +1,5 @@
 <template>
-	<div class="debug">
+	<div class="debug" v-if="debugMode && tileColors">
 		<div v-for="row of format" class="row">
 			<div v-for="cell of row" class="cell" :style="debugStyles(cell)"></div>
 		</div>
@@ -7,9 +7,12 @@
 </template>
 
 <script>
+	import { mapGetters } from "vuex";
 	export default {
 		props: ["format"],
-
+		computed: {
+			...mapGetters(["debugMode", "tileColors"])
+		},
 		methods: {
 			debugStyles(num) {
 				let color = "red";

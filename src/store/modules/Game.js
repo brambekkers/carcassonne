@@ -19,6 +19,12 @@ export default {
             dispatch('createBoard')
 
 
+            // Start turn
+            dispatch('setNextTile')
+
+
+
+
 
         }
     }

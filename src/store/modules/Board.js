@@ -1,9 +1,10 @@
 
+import _ from 'lodash'
 
 export default {
     state: {
         board: [],
-        boardSize: { x: 20, y: 20 }
+        boardSize: { x: 5, y: 5 }
     },
     getters: {
         board: (s) => s.board,
@@ -20,13 +21,20 @@ export default {
             dispatch('placeStartTile')
         },
         create2DArray({ state, commit }) {
-            commit('board', new Array(state.boardSize.y).fill(new Array(state.boardSize.x).fill(null)))
-            console.table(state.board)
+            commit('board', [])
+            const newBoard = []
+            for (let y = 0; y < state.boardSize.y; y++) {
+                if (!newBoard[y]) newBoard.push([])
+                for (let x = 0; x < state.boardSize.x; x++) {
+                    newBoard[y].push(null)
+                }
+            }
+            commit('board', newBoard)
         },
         placeStartTile({ state, getters }) {
-            const startTile = { ...getters.tiles.find(t => t.startTile) }
-            const x = Math.round(getters.boardSize.x / 2)
-            const y = Math.round(getters.boardSize.y / 2)
+            const startTile = _.cloneDeep(getters.tiles.find(t => t.startTile))
+            const x = Math.floor(getters.boardSize.x / 2)
+            const y = Math.floor(getters.boardSize.y / 2)
             state.board[y][x] = startTile
         }
     }

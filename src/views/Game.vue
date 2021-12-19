@@ -11,6 +11,7 @@
 		methods: {
 			...mapActions(["newGame"])
 		},
+
 		created() {
 			this.newGame();
 		}
