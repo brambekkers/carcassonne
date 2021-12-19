@@ -9,48 +9,48 @@
 </template>
 
 <script>
-	import Tile from "@/components/board/Tile.vue";
-	import { mapGetters, mapActions } from "vuex";
+import Tile from "@/components/board/Tile.vue";
+import { mapGetters, mapActions } from "vuex";
 
-	export default {
-		components: { Tile },
-		data() {
+export default {
+	components: { Tile },
+	data() {
+		return {
+			pos: { top: 0, left: 0, x: 0, y: 0 },
+			dragEl: null,
+		};
+	},
+	computed: {
+		...mapGetters(["tiles", "board", "boardSize", "tileSize"]),
+		boardStyles() {
 			return {
-				pos: { top: 0, left: 0, x: 0, y: 0 },
-				dragEl: null
+				color: "red",
+				width: `${this.tileSize * this.boardSize.x}px`,
+				height: `${this.tileSize * this.boardSize.y}px`,
 			};
 		},
-		computed: {
-			...mapGetters(["tiles", "board", "boardSize", "tileSize"]),
-			boardStyles() {
-				return {
-					color: "red",
-					width: `${this.tileSize * this.boardSize.x}px`,
-					height: `${this.tileSize * this.boardSize.y}px`
-				};
-			}
-		},
-		methods: {
-			...mapActions(["createBoard"])
-		},
-		created() {
-			this.createBoard();
-		}
-	};
+	},
+	methods: {
+		...mapActions(["createBoard"]),
+	},
+	created() {
+		this.createBoard();
+	},
+};
 </script>
 
 <style lang="scss" scoped>
-	#board {
+#board {
+	display: flex;
+	flex-direction: column;
+	.row {
 		display: flex;
-		flex-direction: column;
-		.row {
-			display: flex;
-			height: 100%;
+		height: 100%;
 
-			.cell {
-				width: 100%;
-				margin: 0.2rem;
-			}
+		.cell {
+			width: 100%;
+			margin: 0.3%;
 		}
 	}
+}
 </style>
