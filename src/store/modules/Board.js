@@ -4,7 +4,7 @@ import _ from 'lodash'
 export default {
     state: {
         board: [],
-        boardSize: { x: 5, y: 5 }
+        boardSize: { x: 20, y: 20 }
     },
     getters: {
         board: (s) => s.board,
@@ -26,7 +26,9 @@ export default {
             for (let y = 0; y < state.boardSize.y; y++) {
                 if (!newBoard[y]) newBoard.push([])
                 for (let x = 0; x < state.boardSize.x; x++) {
-                    newBoard[y].push(null)
+                    newBoard[y].push({
+
+                    })
                 }
             }
             commit('board', newBoard)
