@@ -9,12 +9,23 @@
 
 // 6. component
 @import "./components/sidepanel";
+@import "./components/card";
 
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+::before,
+::after {
+	box-sizing: inherit;
+}
+
+html,
 body {
-    background: $bg;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	height: 100%;
+	background: $bg;
 }
 
 h1,
@@ -23,5 +34,5 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: $heading-font;
+	font-family: $heading-font;
 }

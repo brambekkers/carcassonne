@@ -1,5 +1,5 @@
 <template>
-	<aside id="sidepanel" :class="{open: open}">
+	<aside id="sidepanel" :class="{ open: open }">
 		<div class="tabs">
 			<div class="tab" @click="toggleMenu('menu')">
 				<i class="fal fa-compass" />
@@ -20,27 +20,30 @@
 			<Debug v-if="menu === 'debug'" />
 		</div>
 	</aside>
-	<div class="panel_mask" @click.prevent="open = false" :class="{open: open}" />
+	<div
+		class="panel_mask"
+		@click.prevent="open = false"
+		:class="{ open: open }"
+	/>
 </template>
 
 <script>
-	import Debug from "./Debug.vue";
-	export default {
-		data() {
-			return {
-				open: false,
-				menu: "menu"
-			};
+import Debug from "@/components/Debug.vue";
+export default {
+	data() {
+		return {
+			open: false,
+			menu: "menu",
+		};
+	},
+	components: { Debug },
+	methods: {
+		toggleMenu(type) {
+			this.open = !this.open;
+			if (this.open) this.menu = type;
 		},
-		components: { Debug },
-		methods: {
-			toggleMenu(type) {
-				this.open = !this.open;
-				if (this.open) this.menu = type;
-			}
-		}
-	};
+	},
+};
 </script>
 
-<style>
-</style>
+<style></style>

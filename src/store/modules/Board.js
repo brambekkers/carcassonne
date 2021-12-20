@@ -20,11 +20,12 @@ export default {
             dispatch('create2DArray')
             dispatch('placeStartTile')
         },
-        updateBoard({ dispatch }) {
+        async updateBoard({ dispatch }) {
             // clear neighbors
 
             // find new neighbors
-            const neighbors = dispatch('findEmptyNeighbors')
+            const neighbors = await dispatch('findEmptyNeighbors')
+            dispatch('setEmptyNeighbors', neighbors)
         },
         create2DArray({ state, commit }) {
             commit('board', [])
@@ -33,7 +34,7 @@ export default {
                 if (!newBoard[y]) newBoard.push([])
                 for (let x = 0; x < state.boardSize.x; x++) {
                     newBoard[y].push({
-                        near: false,
+                        neighbor: false,
                         empty: true,
                         y,
                         x,
@@ -58,8 +59,13 @@ export default {
                 }
             }
             // Flat array
-            const flat = neighbors.flat()
-            console.log(flat)
+            return neighbors.flat()
+
+        },
+        async setEmptyNeighbors({ state }, neighbors) {
+            for (const n of neighbors) {
+                state.board[n.y][n.x].neighbor = true
+            }
         },
         findNeighborsOfCell({ state }, { x, y }) {
             var result = [];

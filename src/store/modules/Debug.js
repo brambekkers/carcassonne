@@ -6,6 +6,7 @@ export default {
             debugMode: true,
             tileColors: true,
             tileBacks: false,
+            emptyTiles: true,
         }
     },
     getters: {
@@ -13,6 +14,7 @@ export default {
         debugMode: (s) => s.debug.debugMode,
         tileColors: (s) => s.debug.tileColors,
         tileBacks: (s) => s.debug.tileBacks,
+        emptyTiles: (s) => s.debug.emptyTiles,
     },
     mutations: {
         debug: (s, v) => s.debug = v,
