@@ -18,14 +18,17 @@ export default {
             dispatch('createTiles')
             dispatch('createBoard')
 
-
             // Start turn
             dispatch('setNextTile')
+            dispatch('updateBoard')
+        },
+        nextTurn({ dispatch }) {
+            console.log('next turn')
+            // Change player
 
-
-
-
-
+            // next Tile
+            dispatch('setNextTile')
+            dispatch('updateBoard')
         }
     }
 };

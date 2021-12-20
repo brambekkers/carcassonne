@@ -20,13 +20,24 @@ export default {
             dispatch('create2DArray')
             dispatch('placeStartTile')
         },
+        updateBoard({ dispatch }) {
+            // clear neighbors
+
+            // find new neighbors
+            const neighbors = dispatch('findEmptyNeighbors')
+        },
         create2DArray({ state, commit }) {
             commit('board', [])
             const newBoard = []
             for (let y = 0; y < state.boardSize.y; y++) {
                 if (!newBoard[y]) newBoard.push([])
                 for (let x = 0; x < state.boardSize.x; x++) {
-                    newBoard[y].push(null)
+                    newBoard[y].push({
+                        near: false,
+                        empty: true,
+                        y,
+                        x,
+                    })
                 }
             }
             commit('board', newBoard)
@@ -35,7 +46,37 @@ export default {
             const startTile = _.cloneDeep(getters.tiles.find(t => t.startTile))
             const x = Math.floor(getters.boardSize.x / 2)
             const y = Math.floor(getters.boardSize.y / 2)
-            state.board[y][x] = startTile
+            state.board[y][x] = { ...state.board[y][x], ...startTile, empty: false, }
+        },
+        async findEmptyNeighbors({ state, dispatch }) {
+            const neighbors = []
+            for (const row of state.board) {
+                for (const cell of row) {
+                    if (!cell.empty) {
+                        neighbors.push(await dispatch('findNeighborsOfCell', { x: cell.x, y: cell.y }))
+                    }
+                }
+            }
+            // Flat array
+            const flat = neighbors.flat()
+            console.log(flat)
+        },
+        findNeighborsOfCell({ state }, { x, y }) {
+            var result = [];
+            const options = [
+                { x: 0, y: -1 },
+                { x: 1, y: 0 },
+                { x: 0, y: 1 },
+                { x: -1, y: 0 },
+
+            ];
+            options.forEach(option => {
+                if (state.board[y + option.y] && state.board[y + option.y][x + option.x]) {
+                    result.push(state.board[y + option.y][x + option.x])
+                }
+            })
+
+            return result;
         }
     }
 };

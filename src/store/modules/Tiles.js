@@ -44,10 +44,10 @@ export default {
             }
         },
         placeTile({ commit, getters, dispatch }, { x, y }) {
-            getters.board[y][x] = _.cloneDeep(getters.nextTile)
-
+            const tile = _.cloneDeep(getters.nextTile)
+            getters.board[y][x] = { ...getters.board[y][x], ...tile, empty: false }
             commit('nextTile', null);
-            dispatch('setNextTile')
+            dispatch('nextTurn')
 
         },
         async rotateTile({ state, dispatch }, dir) {
@@ -57,8 +57,6 @@ export default {
             state.nextTile.dir = (newValue % 360)
             // rotate array
             state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
-
-
         },
         tranpose({ }, { array, dir }) {
             console.log(dir)

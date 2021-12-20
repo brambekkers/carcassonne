@@ -2,7 +2,7 @@
 	<div id="board" :style="boardStyles">
 		<div v-for="(row, y) of board" class="row">
 			<div v-for="(cell, x) of row" class="cell">
-				<Tile :tile="cell" :x="x" :y="y" />
+				<Tile :tile="cell" />
 			</div>
 		</div>
 	</div>

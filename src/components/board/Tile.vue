@@ -1,13 +1,13 @@
 <template>
-	<div class="tile" :style="tileStyles" v-if="tile">
+	<div class="tile" :style="tileStyles" v-if="tile.format">
 		<DebugTile v-if="debugMode" :format="tile.format" :dir="tile.dir" />
 	</div>
 	<GhostTile
 		@mouseleave="hover = false"
 		:tile="hover ? nextTile : null"
 		v-else-if="nextTile && hover"
-		:x="x"
-		:y="y"
+		:x="tile.x"
+		:y="tile.y"
 	/>
 	<div
 		class="tile back"
