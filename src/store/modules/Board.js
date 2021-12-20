@@ -26,9 +26,7 @@ export default {
             for (let y = 0; y < state.boardSize.y; y++) {
                 if (!newBoard[y]) newBoard.push([])
                 for (let x = 0; x < state.boardSize.x; x++) {
-                    newBoard[y].push({
-
-                    })
+                    newBoard[y].push(null)
                 }
             }
             commit('board', newBoard)
