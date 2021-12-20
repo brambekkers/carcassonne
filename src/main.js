@@ -2,6 +2,11 @@ import { createApp } from 'vue'
 import router from "./router";
 import store from "./store";
 
+// Import Font Awesome
+import "@/assets/fonts/fa/all.min.css";
+
+// Main styling
+import "@/scss/main.scss";
 
 
 import App from './App.vue'

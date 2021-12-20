@@ -9,48 +9,54 @@
 </template>
 
 <script>
-import Tile from "@/components/board/Tile.vue";
-import { mapGetters, mapActions } from "vuex";
+	import Tile from "@/components/board/Tile.vue";
+	import { mapGetters, mapActions } from "vuex";
 
-export default {
-	components: { Tile },
-	data() {
-		return {
-			pos: { top: 0, left: 0, x: 0, y: 0 },
-			dragEl: null,
-		};
-	},
-	computed: {
-		...mapGetters(["tiles", "board", "boardSize", "tileSize"]),
-		boardStyles() {
+	export default {
+		components: { Tile },
+		data() {
 			return {
-				color: "red",
-				width: `${this.tileSize * this.boardSize.x}px`,
-				height: `${this.tileSize * this.boardSize.y}px`,
+				pos: { top: 0, left: 0, x: 0, y: 0 },
+				dragEl: null
 			};
 		},
-	},
-	methods: {
-		...mapActions(["createBoard"]),
-	},
-	created() {
-		this.createBoard();
-	},
-};
+		computed: {
+			...mapGetters(["tiles", "board", "boardSize", "tileSize"]),
+			boardStyles() {
+				return {
+					color: "red",
+					width: `${this.tileSize * this.boardSize.x}px`,
+					height: `${this.tileSize * this.boardSize.y}px`
+				};
+			}
+		},
+		methods: {
+			...mapActions(["createBoard", "rotateTile"])
+		},
+		created() {
+			this.createBoard();
+
+			document.addEventListener("keypress", e => {
+				if (e.key == "r") {
+					this.rotateTile(90);
+				}
+			});
+		}
+	};
 </script>
 
 <style lang="scss" scoped>
-#board {
-	display: flex;
-	flex-direction: column;
-	.row {
+	#board {
 		display: flex;
-		height: 100%;
+		flex-direction: column;
+		.row {
+			display: flex;
+			height: 100%;
 
-		.cell {
-			width: 100%;
-			margin: 0.3%;
+			.cell {
+				width: 100%;
+				margin: 0.1%;
+			}
 		}
 	}
-}
 </style>

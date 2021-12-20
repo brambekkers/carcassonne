@@ -1,5 +1,6 @@
 <template>
-	<div id="debugMode">
+	<div class="widget">
+		<h5 class="widget_title">Debug info</h5>
 		<div>
 			<input type="checkbox" v-model="debug.debugMode" />
 			Debug mode
@@ -24,14 +25,4 @@
 </script>
 
 <style lang="scss" scoped>
-	#debugMode {
-		position: fixed;
-		z-index: 999;
-		left: 1rem;
-		top: 1rem;
-		color: red;
-		font-weight: 700;
-		background-color: lightcyan;
-		padding: 0.5rem;
-	}
 </style>

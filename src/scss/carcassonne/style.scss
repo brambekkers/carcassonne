@@ -1,0 +1,27 @@
+// http://preview.themeforest.net/item/kings-queens-medieval-reenactment-wp-theme/full_screen_preview/21866804?_ga=2.200741037.283204282.1639985544-265797474.1619074381&_gac=1.115880180.1637864481.Cj0KCQiAhf2MBhDNARIsAKXU5GRVZnU2tu02yrCZwNHyKVUWWl98wg5qaan_tEw0QTDWNErnNRL36kMaAiPeEALw_wcB
+
+// 1. abstract
+@import "./abstract/variable";
+
+// 3. base
+@import "./base/color";
+@import "./base/fonts";
+
+// 6. component
+@import "./components/sidepanel";
+
+body {
+    background: $bg;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $heading-font;
+}

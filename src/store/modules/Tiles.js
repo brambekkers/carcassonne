@@ -55,7 +55,6 @@ export default {
             let newValue = state.nextTile.dir + dir
             if (newValue === -360) newValue = 0
             state.nextTile.dir = (newValue % 360)
-            console.log(state.nextTile.dir)
             // rotate array
             state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
 
