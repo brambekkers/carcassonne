@@ -63,7 +63,6 @@ export default {
             dispatch('findMatchspots')
         },
         tranpose({ }, { array, dir }) {
-            console.log(dir)
             if (dir > 0) {
                 return array[0].map((val, index) => array.map(row => row[index]).reverse())
             } else {

@@ -20,19 +20,20 @@ export default {
 
     },
     actions: {
-        createBoard({ dispatch }) {
-            dispatch('create2DArray')
-            dispatch('placeStartTile')
+        async createBoard({ dispatch }) {
+            await dispatch('create2DArray')
+            await dispatch('placeStartTile')
+
         },
         async updateBoard({ dispatch, commit }) {
             // Set new neighbors
             const neighbors = await dispatch('findEmptyNeighbors')
             commit('neighbors', neighbors)
-            dispatch('setEmptyNeighbors', neighbors)
+            await dispatch('setEmptyNeighbors', neighbors)
 
             // Find match spots
-            dispatch('clearMatchspots')
-            dispatch('findMatchspots')
+            await dispatch('clearMatchspots')
+            await dispatch('findMatchspots')
 
         },
         create2DArray({ state, commit }) {
@@ -92,7 +93,6 @@ export default {
                         match = false
                     }
                 }
-
                 // Set neighbor match
                 n.match = match
             }

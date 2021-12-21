@@ -10,25 +10,29 @@ export default {
     mutations: {
     },
     actions: {
-        newGame({ dispatch, commit }) {
+        async newGame({ dispatch, commit }) {
             // reset current game
             commit('board', [])
 
             // Create new game 
-            dispatch('createTiles')
-            dispatch('createBoard')
+            await dispatch('createTiles')
+            await dispatch('createBoard')
 
             // Start turn
-            dispatch('setNextTile')
+            await dispatch('setNextTile')
             dispatch('updateBoard')
         },
-        nextTurn({ dispatch }) {
+        nextTurn({ dispatch, getters }) {
             console.log('next turn')
             // Change player
 
             // next Tile
-            dispatch('setNextTile')
-            dispatch('updateBoard')
+            if (getters.tiles.length) {
+                dispatch('setNextTile')
+                dispatch('updateBoard')
+            } else {
+                alert('SPEL AFGELOPEN')
+            }
         }
     }
 };
