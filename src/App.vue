@@ -9,7 +9,6 @@ export default {
 	components: { Sidepanel },
 	computed: {
 		haseSidepanel() {
-			console.log(this.$route);
 			return this.$route.meta.sidepanel;
 		},
 	},
