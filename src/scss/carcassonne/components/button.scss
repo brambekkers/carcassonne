@@ -1,0 +1,42 @@
+.btn {
+	color: #f2e0c8;
+	background-color: #bd8d4c;
+	border-radius: 35px;
+
+	font-size: 13px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 22px;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1.6px;
+	padding: 0.9em 2.2em 0.95em;
+	text-transform: uppercase;
+	letter-spacing: 1.6px;
+	border: none;
+	transition: all 0.4;
+
+	cursor: pointer;
+
+	&:hover {
+		color: #f2e0c8;
+		background-color: #070301;
+	}
+}
+
+.btn-lg {
+	font-size: 16px;
+	line-height: 40px;
+	min-width: 300px;
+}
+
+.btn-outline {
+	color: #f2e0c8 !important;
+	border: #bd8d4c 2px solid !important;
+	background: none !important;
+
+	&:hover {
+		color: #f2e0c8 !important;
+		background: #bd8d4c !important;
+	}
+}

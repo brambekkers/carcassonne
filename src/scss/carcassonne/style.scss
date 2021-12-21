@@ -10,6 +10,7 @@
 // 6. component
 @import "./components/sidepanel";
 @import "./components/card";
+@import "./components/button";
 
 * {
 	margin: 0;
@@ -26,6 +27,7 @@ html,
 body {
 	height: 100%;
 	background: $bg;
+	color: $text-color;
 }
 
 h1,
@@ -35,4 +37,5 @@ h4,
 h5,
 h6 {
 	font-family: $heading-font;
+	color: $dark;
 }

@@ -18,7 +18,7 @@
 		:class="{
 			'tile back': emptyTiles,
 			'tile neighbor  ': tile.neighbor,
-			'match': tile.match,
+			match: tile.match && posibleSpots,
 		}"
 		v-else
 		@mouseover="hoverTile"
@@ -27,74 +27,80 @@
 </template>
 
 <script>
-	import { mapGetters } from "vuex";
-	import DebugTile from "@/components/board/DebugTile.vue";
-	import GhostTile from "@/components/board/GhostTile.vue";
-	export default {
-		props: ["tile", "x", "y"],
-		data() {
+import { mapGetters } from "vuex";
+import DebugTile from "@/components/board/DebugTile.vue";
+import GhostTile from "@/components/board/GhostTile.vue";
+export default {
+	props: ["tile", "x", "y"],
+	data() {
+		return {
+			timeout: null,
+			hover: false,
+		};
+	},
+	components: { DebugTile, GhostTile },
+	computed: {
+		...mapGetters([
+			"tileColors",
+			"nextTile",
+			"tileSize",
+			"emptyTiles",
+			"posibleSpots",
+		]),
+		tileStyles() {
 			return {
-				timeout: null,
-				hover: false
+				width: `${this.tileSize}px`,
+				height: `${this.tileSize}px`,
+				backgroundImage: `url('/${this.tile.src}')`,
+				transform: `rotate(${this.tile.dir}deg)`,
 			};
 		},
-		components: { DebugTile, GhostTile },
-		computed: {
-			...mapGetters(["tileColors", "nextTile", "tileSize", "emptyTiles"]),
-			tileStyles() {
-				return {
-					width: `${this.tileSize}px`,
-					height: `${this.tileSize}px`,
-					backgroundImage: `url('/${this.tile.src}')`,
-					transform: `rotate(${this.tile.dir}deg)`
-				};
-			},
-			backStyles() {
-				return {
-					width: `${this.tileSize}px`,
-					height: `${this.tileSize}px`
-				};
-			}
+		backStyles() {
+			return {
+				width: `${this.tileSize}px`,
+				height: `${this.tileSize}px`,
+			};
 		},
-		methods: {
-			// To do: Check if this is the most efficient methode
-			hoverTile() {
-				// Clear timeout
-				if (this.timeout) {
-					clearTimeout(this.timeout);
-				}
-
-				this.hover = true;
-
-				// setTimeout
-				this.timeout = setTimeout(() => {
-					this.hover = false;
-				}, 1000);
+	},
+	methods: {
+		// To do: Check if this is the most efficient methode
+		hoverTile() {
+			// Clear timeout
+			if (this.timeout) {
+				clearTimeout(this.timeout);
 			}
-		}
-	};
+
+			this.hover = true;
+
+			// setTimeout
+			this.timeout = setTimeout(() => {
+				this.hover = false;
+			}, 1000);
+		},
+	},
+};
 </script>
 
 <style lang="scss" scoped>
-	.tile {
-		background-origin: center;
-		background-size: cover;
+.tile {
+	background-origin: center;
+	background-size: cover;
 
-		border-radius: 5%;
-		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-		overflow: hidden;
-		transition: all 0.2s ease;
-	}
+	border-radius: 5%;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	overflow: hidden;
+	transition: all 0.2s ease;
+}
 
-	.back {
-		background-image: url("/images/tiles/BackLogo.png");
-	}
+.back {
+	background-image: url("/images/tiles/BackLogo.png");
+}
 
-	.neighbor {
-		background: rgba(0, 0, 0, 0.2);
-	}
+.neighbor {
+	background: rgba(0, 0, 0, 0.2);
+}
 
-	.match {
-		background: rgba(0, 255, 0, 0.1);
-	}
+.match {
+	background: rgba(0, 255, 0, 0.1);
+}
 </style>

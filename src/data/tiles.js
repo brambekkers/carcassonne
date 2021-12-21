@@ -411,9 +411,9 @@ export default [
         amount: 1,
         src: 'images/tiles/RoadJunctionLarge.png',
         format: [
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 4, 0, 0],
+            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0],
+            [1, 1, 4, 1, 1],
             [0, 0, 1, 0, 0],
             [0, 0, 1, 0, 0],
         ]
