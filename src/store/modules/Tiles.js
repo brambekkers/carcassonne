@@ -38,7 +38,7 @@ export default {
         },
         setNextTile({ state, commit }) {
             if (state.tiles?.length) {
-                commit('nextTile', state.tiles.splice(Math.floor(Math.random() * state.tiles.length), 1)[0]);
+                commit('nextTile', state.tiles.splice(_.random(state.tiles.length - 1), 1)[0]);
             } else {
                 // game stops...
             }

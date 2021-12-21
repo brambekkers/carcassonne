@@ -16,9 +16,12 @@
 			border-color: black;
 			border-width: 1px 0 0 0;
 			border-radius: 20px;
-			margin-left: -1rem;
-			margin-right: -1rem;
-			margin-bottom: -1.3rem;
+			margin: {
+				top: 1rem;
+				bottom: -0.5rem;
+				left: -1rem;
+				right: -1rem;
+			}
 		}
 		hr:before {
 			/* Not really supposed to work, but does */
