@@ -11,8 +11,8 @@
     "lodash": "^4.17.21",
     "npm": "^8.3.0",
     "path": "^0.12.7",
+    "scrollbooster": "^3.0.2",
     "vue": "^3.2.25",
-    "vue-dragscroll": "^3.0.1",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"
   },

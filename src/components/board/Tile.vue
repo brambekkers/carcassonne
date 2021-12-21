@@ -1,13 +1,13 @@
 <template>
 	<!-- Tiles that are placed -->
-	<div class="tile" :style="tileStyles" v-if="tile.format">
+	<div class="tile" :style="tileStyles" v-if="!tile.empty">
 		<DebugTile v-if="tileColors" :format="tile.format" :dir="tile.dir" />
 	</div>
 
 	<!-- Ghost tile that spawns if tile is hoverd -->
 	<GhostTile
 		@mouseleave="hover = false"
-		:tile="hover ? nextTile : null"
+		:tile="tile"
 		v-else-if="nextTile && hover && tile.neighbor"
 		:x="tile.x"
 		:y="tile.y"
@@ -18,6 +18,7 @@
 		:class="{
 			'tile back': emptyTiles,
 			'tile neighbor  ': tile.neighbor,
+			'match': tile.match,
 		}"
 		v-else
 		@mouseover="hoverTile"
@@ -82,6 +83,7 @@
 		border-radius: 5%;
 		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 		overflow: hidden;
+		transition: all 0.2s ease;
 	}
 
 	.back {
@@ -89,6 +91,10 @@
 	}
 
 	.neighbor {
-		background: rgba(0, 0, 0, 00.2);
+		background: rgba(0, 0, 0, 0.2);
+	}
+
+	.match {
+		background: rgba(0, 255, 0, 0.1);
 	}
 </style>

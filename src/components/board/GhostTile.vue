@@ -1,5 +1,5 @@
 <template>
-	<div class="container" :style="containerStyles" data-no-dragscroll>
+	<div class="container" :style="containerStyles">
 		<div class="tile" :style="tileStyles" @click.self="place"></div>
 		<img class="left" src="@/assets/icons/left.png" @click="rotateTile(-90)" />
 		<img class="right" src="@/assets/icons/right.png" @click="rotateTile(90)" />
@@ -12,7 +12,7 @@
 	export default {
 		props: ["tile", "x", "y"],
 		computed: {
-			...mapGetters(["tileSize"]),
+			...mapGetters(["tileSize", "nextTile"]),
 			containerStyles() {
 				return {
 					width: `${this.tileSize}px`,
@@ -21,16 +21,17 @@
 			},
 			tileStyles() {
 				return {
-					backgroundImage: `url('/${this.tile.src}')`,
-					transform: `rotate(${this.tile.dir}deg)`
+					backgroundImage: `url('/${this.nextTile.src}')`,
+					transform: `rotate(${this.nextTile.dir}deg)`
 				};
 			}
 		},
 		methods: {
 			...mapActions(["placeTile", "rotateTile"]),
 			place() {
-				console.log("place tile");
-				this.placeTile({ x: this.x, y: this.y });
+				if (this.tile.match) {
+					this.placeTile({ x: this.x, y: this.y });
+				}
 			}
 		}
 	};

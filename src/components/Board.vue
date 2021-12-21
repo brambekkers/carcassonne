@@ -1,5 +1,5 @@
 <template>
-	<div class="viewport" v-dragscroll>
+	<div class="viewport">
 		<div id="board" class="test" :style="boardStyles">
 			<div v-for="(row, y) of board" class="row">
 				<div v-for="(cell, x) of row" class="cell">
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+	import ScrollBooster from "scrollbooster";
 	import Tile from "@/components/board/Tile.vue";
 	import { mapGetters, mapActions } from "vuex";
 
@@ -18,6 +19,7 @@
 		components: { Tile },
 		data() {
 			return {
+				sb: null,
 				pos: { top: 0, left: 0, x: 0, y: 0 },
 				dragEl: null
 			};
@@ -36,7 +38,17 @@
 			...mapActions(["createBoard", "rotateTile"])
 		},
 		mounted() {
+			// Create new scroll instance
 			const view = document.querySelector(".viewport");
+			this.sb = new ScrollBooster({
+				viewport: view,
+				scrollMode: "transform"
+			});
+
+			// Position in middle
+			const x = view.scrollWidth / 2 - view.offsetWidth / 2;
+			const y = view.scrollHeight / 2 - view.offsetHeight / 2;
+			this.sb.setPosition({ x, y });
 		},
 		created() {
 			this.createBoard();

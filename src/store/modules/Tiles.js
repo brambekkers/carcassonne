@@ -57,6 +57,10 @@ export default {
             state.nextTile.dir = (newValue % 360)
             // rotate array
             state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
+
+            // Check for new spots
+            dispatch('clearMatchspots')
+            dispatch('findMatchspots')
         },
         tranpose({ }, { array, dir }) {
             console.log(dir)
