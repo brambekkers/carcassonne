@@ -1,29 +1,31 @@
 <template>
 	<!-- Tiles that are placed -->
-	<div class="tile" :style="tileStyles" v-if="!tile.empty">
-		<DebugTile v-if="tileColors" :format="tile.format" :dir="tile.dir" />
+	<div class="tileContainer" v-if="!tile.empty || tile.neighbor || emptyTiles">
+		<div class="tile" :style="tileStyles" v-if="!tile.empty">
+			<DebugTile v-if="tileColors" :format="tile.format" :dir="tile.dir" />
+		</div>
+
+		<!-- Ghost tile that spawns if tile is hoverd -->
+		<GhostTile
+			@mouseleave="hover = false"
+			:tile="tile"
+			v-else-if="nextTile && hover && tile.neighbor"
+			:x="tile.x"
+			:y="tile.y"
+		/>
+		<div
+			:style="backStyles"
+			class="tile neighbor"
+			:class="{
+				match: tile.match && posibleSpots,
+			}"
+			v-else-if="tile.neighbor"
+			@mouseover="hoverTile"
+			@mouseleave="hover = false"
+		/>
+
+		<div v-else-if="emptyTiles" :style="backStyles" class="tile back" />
 	</div>
-
-	<!-- Ghost tile that spawns if tile is hoverd -->
-	<GhostTile
-		@mouseleave="hover = false"
-		:tile="tile"
-		v-else-if="nextTile && hover && tile.neighbor"
-		:x="tile.x"
-		:y="tile.y"
-	/>
-
-	<div
-		:style="backStyles"
-		:class="{
-			'tile back': emptyTiles,
-			'tile neighbor  ': tile.neighbor,
-			match: tile.match && posibleSpots,
-		}"
-		v-else
-		@mouseover="hoverTile"
-		@mouseleave="hover = false"
-	/>
 </template>
 
 <script>
@@ -49,17 +51,12 @@ export default {
 		]),
 		tileStyles() {
 			return {
-				width: `${this.tileSize}px`,
-				height: `${this.tileSize}px`,
 				backgroundImage: `url('/${this.tile.src}')`,
 				transform: `rotate(${this.tile.dir}deg)`,
 			};
 		},
 		backStyles() {
-			return {
-				width: `${this.tileSize}px`,
-				height: `${this.tileSize}px`,
-			};
+			return {};
 		},
 	},
 	methods: {
@@ -82,25 +79,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tile {
-	background-origin: center;
-	background-size: cover;
-
-	border-radius: 5%;
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-	overflow: hidden;
-	transition: all 0.2s ease;
-}
-
-.back {
-	background-image: url("/images/tiles/BackLogo.png");
-}
-
 .neighbor {
 	background: rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
 }
 
 .match {
 	background: rgba(0, 255, 0, 0.1);
+	border-radius: 5px;
 }
 </style>

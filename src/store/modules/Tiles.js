@@ -6,6 +6,7 @@ export default {
         // on Create
         tiles: [],
         tileSize: 200,
+        tileGap: 4,
         newTile: {
             dir: 0,
         },
@@ -16,6 +17,7 @@ export default {
     getters: {
         tiles: (s) => s.tiles,
         tileSize: (s) => s.tileSize,
+        tileGap: (s) => s.tileGap,
         newTile: (s) => s.newTile,
         nextTile: (s) => s.nextTile
     },
@@ -45,7 +47,7 @@ export default {
         },
         placeTile({ commit, getters, dispatch }, { x, y }) {
             const tile = _.cloneDeep(getters.nextTile)
-            getters.board[y][x] = { ...getters.board[y][x], ...tile, empty: false }
+            getters.board[y][x] = { ...getters.board[y][x], ...tile, neighbor: false, empty: false }
             commit('nextTile', null);
             dispatch('nextTurn')
 

@@ -1,8 +1,8 @@
 <template>
 	<div class="viewport">
 		<div id="board" class="test" :style="boardStyles">
-			<div v-for="(row, y) of board" class="row">
-				<div v-for="(cell, x) of row" class="cell">
+			<div v-for="(row, y) of board" class="row" :style="rowStyles">
+				<div v-for="(cell, x) of row" class="cell" :style="cellStyles">
 					<Tile :tile="cell" />
 				</div>
 			</div>
@@ -25,12 +25,23 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(["tiles", "board", "boardSize", "tileSize"]),
+		...mapGetters(["tiles", "board", "boardSize", "tileSize", "tileGap"]),
 		boardStyles() {
 			return {
-				color: "red",
-				width: `${this.tileSize * this.boardSize.x}px`,
-				height: `${this.tileSize * this.boardSize.y}px`,
+				width: `${(this.tileSize + this.tileGap) * this.boardSize.x}px`,
+				height: `${(this.tileSize + this.tileGap) * this.boardSize.y}px`,
+				gap: `${this.tileGap}px`,
+			};
+		},
+		rowStyles() {
+			return {
+				gap: `${this.tileGap}px`,
+			};
+		},
+		cellStyles() {
+			return {
+				width: `${this.tileSize}px`,
+				height: `${this.tileSize}px`,
 			};
 		},
 	},
@@ -78,8 +89,6 @@ export default {
 		height: 100%;
 
 		.cell {
-			width: 100%;
-			margin: 0.1%;
 		}
 	}
 }

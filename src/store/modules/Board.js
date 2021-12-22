@@ -5,19 +5,19 @@ export default {
     state: {
         board: [],
         boardSize: { x: 20, y: 20 },
-        neighbors: []
+        neighbors: [],
+        matchSpots: [],
     },
     getters: {
         board: (s) => s.board,
         boardSize: (s) => s.boardSize,
         neighbors: (s) => s.neighbors,
-
-
+        matchSpots: (s) => s.matchSpots,
     },
     mutations: {
         board: (s, v) => s.board = v,
         neighbors: (s, v) => s.neighbors = v,
-
+        matchSpots: (s, v) => s.matchSpots = v,
     },
     actions: {
         async createBoard({ dispatch }) {
@@ -25,7 +25,7 @@ export default {
             await dispatch('placeStartTile')
 
         },
-        async updateBoard({ dispatch, commit }) {
+        async updateBoard({ state, dispatch, commit }) {
             // Set new neighbors
             const neighbors = await dispatch('findEmptyNeighbors')
             commit('neighbors', neighbors)
@@ -34,6 +34,9 @@ export default {
             // Find match spots
             await dispatch('clearMatchspots')
             await dispatch('findMatchspots')
+            if (!state.matchSpots.length) {
+                console.log('no match spots found')
+            }
 
         },
         create2DArray({ state, commit }) {
@@ -53,8 +56,9 @@ export default {
             }
             commit('board', newBoard)
         },
-        clearMatchspots({ state }) {
+        clearMatchspots({ state, commit }) {
             state.neighbors.forEach(n => n.match = false)
+            commit('matchSpots', [])
         },
         async findMatchspots({ state, getters, dispatch }) {
             for (const n of state.neighbors) {
@@ -94,7 +98,11 @@ export default {
                     }
                 }
                 // Set neighbor match
-                n.match = match
+                if (match) {
+                    n.match = match
+                    state.matchSpots.push(n)
+                }
+
             }
 
         },
@@ -109,7 +117,9 @@ export default {
             for (const row of state.board) {
                 for (const cell of row) {
                     if (!cell.empty) {
-                        neighbors.push(await dispatch('findNeighborsOfCell', { x: cell.x, y: cell.y }))
+                        const allNeighbors = await dispatch('findNeighborsOfCell', { x: cell.x, y: cell.y })
+                        const emptyNeighbors = allNeighbors.filter(n => n.empty)
+                        neighbors.push(emptyNeighbors)
                     }
                 }
             }
