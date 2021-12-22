@@ -12,6 +12,7 @@ export default {
         playerBadges: (s) => s.playerBadges,
     },
     mutations: {
+        players: (s, v) => s.players = v,
         playerBadges: (s, v) => s.playerBadges = v,
 
     },
@@ -21,6 +22,7 @@ export default {
 
             if (state.players.length < 6) {
                 state.players.push({
+                    name: badge.name,
                     smallMeeples: 7,
                     bigMeeples: 1,
                     points: 0,
@@ -28,6 +30,12 @@ export default {
                     color
                 })
             }
+        },
+        removePlayer({ state, commit }, player) {
+            const players = state.players.filter(p => p.badge.name != player.badge.name)
+            state.playerColors.push(player.color)
+            commit('players', players)
+
         }
     }
 };

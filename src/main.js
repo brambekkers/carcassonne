@@ -6,6 +6,7 @@ import "@/assets/fonts/fa/all.min.css";
 
 // Main styling
 import "@/scss/main.scss";
+import 'animate.css';
 
 
 import App from './App.vue'

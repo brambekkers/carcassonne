@@ -1,146 +1,146 @@
 export default [
     {
-        name: "",
+        name: "Alchemist",
         src: 'images/players/alchemist.png',
     },
     {
-        name: "",
+        name: "Apothecary",
         src: 'images/players/apothecary.png',
     },
     {
-        name: "",
+        name: "Astronomer",
         src: 'images/players/astronomer.png',
     },
     {
-        name: "Smit",
+        name: "Blacksmith",
         src: 'images/players/blacksmith.png',
     },
     {
-        name: "",
+        name: "Carpenter",
         src: 'images/players/carpenter.png',
     },
     {
-        name: "",
+        name: "Crusader",
         src: 'images/players/crusader.png',
     },
     {
-        name: "Dokter",
+        name: "Doctor",
         src: 'images/players/doctor.png',
     },
     {
-        name: "",
+        name: "Executioner",
         src: 'images/players/executioner.png',
     },
     {
-        name: "",
+        name: "Guard",
         src: 'images/players/guard.png',
     },
     {
-        name: "",
+        name: "Herald",
         src: 'images/players/herald.png',
     },
     {
-        name: "",
+        name: "Heretic",
         src: 'images/players/heretic.png',
     },
     {
-        name: "",
+        name: "Infected",
         src: 'images/players/infected.png',
     },
     {
-        name: "",
+        name: "Inquisitor",
         src: 'images/players/inquisitor.png',
     },
     {
-        name: "",
+        name: "Jester",
         src: 'images/players/jester.png',
     },
     {
-        name: "Koning",
+        name: "King",
         src: 'images/players/king.png',
     },
     {
-        name: "",
+        name: "Knight",
         src: 'images/players/knight.png',
     },
     {
-        name: "Heer",
+        name: "Lord",
         src: 'images/players/lord.png',
     },
     {
-        name: "",
+        name: "Magyar",
         src: 'images/players/magyar.png',
     },
     {
-        name: "",
+        name: "Maiden",
         src: 'images/players/maiden.png',
     },
     {
-        name: "",
+        name: "Merchant",
         src: 'images/players/merchant.png',
     },
     {
-        name: "",
+        name: "Minstrel",
         src: 'images/players/minstrel.png',
     },
     {
-        name: "",
+        name: "Moneylender",
         src: 'images/players/moneylender.png',
     },
     {
-        name: "",
+        name: "Mongol",
         src: 'images/players/mongol.png',
     },
     {
-        name: "",
+        name: "Peddler",
         src: 'images/players/peddler.png',
     },
     {
-        name: "",
+        name: "Pilgrim",
         src: 'images/players/pilgrim.png',
     },
     {
-        name: "",
+        name: "Plague",
         src: 'images/players/plague.png',
     },
     {
-        name: "",
+        name: "Prince",
         src: 'images/players/prince.png',
     },
     {
-        name: "",
+        name: "Princess",
         src: 'images/players/princess.png',
     },
     {
-        name: "",
+        name: "Prisoner",
         src: 'images/players/prisoner.png',
     },
     {
-        name: "",
+        name: "Queen",
         src: 'images/players/queen.png',
     },
     {
-        name: "",
+        name: "Saracen",
         src: 'images/players/saracen.png',
     },
     {
-        name: "",
+        name: "Soldier",
         src: 'images/players/soldier.png',
     },
     {
-        name: "",
+        name: "Squire",
         src: 'images/players/squire.png',
     },
     {
-        name: "",
+        name: "Stonecutter",
         src: 'images/players/stonecutter.png',
     },
     {
-        name: "",
+        name: "Viking",
         src: 'images/players/viking.png',
     },
     {
-        name: "",
+        name: "Witch",
         src: 'images/players/witch.png',
     },
 ]

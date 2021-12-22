@@ -13,6 +13,7 @@
 @import "./components/sidepanel";
 @import "./components/card";
 @import "./components/button";
+@import "./components/input";
 
 * {
 	margin: 0;
@@ -27,7 +28,6 @@
 	box-sizing: inherit;
 }
 #app {
-	background: #f6f9fc;
 	height: 100vh;
 	max-width: 100vw;
 	overflow-x: hidden;
