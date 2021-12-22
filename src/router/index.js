@@ -15,7 +15,7 @@ const routes = [
         }
     },
     {
-        path: "/menu",
+        path: "/",
         name: "Hoofdmenu",
         component: Menu,
         meta: {
