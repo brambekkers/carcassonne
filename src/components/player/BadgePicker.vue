@@ -21,7 +21,7 @@
 <style lang="scss" scoped>
 	.badgePicker {
 		position: relative;
-		height: 70vh;
+		height: 68vh;
 		flex-grow: 1;
 
 		.container {
@@ -37,36 +37,33 @@
 			width: 100%;
 			gap: 1rem;
 		}
-
-		&:before {
+		&:before,
+		&:after {
 			content: "";
+
 			position: absolute;
 			z-index: 100;
-			top: 0;
 			left: 0;
 			pointer-events: none;
+			width: 100%;
+			height: 4rem;
+		}
+
+		&:before {
+			top: 0;
 			background-image: linear-gradient(
 				to bottom,
 				#f2e0c8,
 				rgba(255, 255, 255, 0) 100%
 			);
-			width: 100%;
-			height: 4rem;
 		}
 		&:after {
-			content: "";
-			position: absolute;
-			z-index: 100;
 			bottom: 0;
-			left: 0;
-			pointer-events: none;
 			background-image: linear-gradient(
 				to bottom,
 				rgba(255, 255, 255, 0),
 				#f2e0c8 100%
 			);
-			width: 100%;
-			height: 4rem;
 		}
 	}
 </style>

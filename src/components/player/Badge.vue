@@ -25,7 +25,13 @@
 			},
 			colorStyles() {
 				return {
-					background: this.player?.color || ""
+					backgroundImage: this.player?.color
+						? `linear-gradient(to bottom,rgba(1, 1, 1, 0.2) 0%,${this.player
+								?.color + 80} 20%, 
+																${this.player?.color} 50%,
+																rgba(1, 1, 1, 1) 90%,
+																 rgba(1, 1, 1, 1) 110% )`
+						: ""
 				};
 			},
 			badgeStyles() {
@@ -64,6 +70,9 @@
 			.badge-img {
 				transform: scale(150%) translateY(#{randomNum(10, 20)}+ "%")
 					rotate(#{randomNum(-20, 20)}+ "deg");
+			}
+
+			.badge-color {
 			}
 		}
 
