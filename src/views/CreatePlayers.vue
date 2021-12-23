@@ -23,46 +23,49 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Card from "@/components/base/Card.vue";
-import CardSM from "@/components/base/Card-sm.vue";
-import BadgePicker from "@/components/player/BadgePicker.vue";
-import PlayerInput from "@/components/player/PlayerInput.vue";
-export default {
-	components: { Card, CardSM, BadgePicker, PlayerInput },
-	computed: {
-		...mapGetters(["players"]),
-	},
-};
+	import { mapGetters } from "vuex";
+	import Card from "@/components/base/Card.vue";
+	import CardSM from "@/components/base/Card-sm.vue";
+	import BadgePicker from "@/components/player/BadgePicker.vue";
+	import PlayerInput from "@/components/player/PlayerInput.vue";
+	export default {
+		components: { Card, CardSM, BadgePicker, PlayerInput },
+		computed: {
+			...mapGetters(["players"])
+		}
+	};
 </script>
 
 <style lang="scss" scoped>
-.container {
-	background: #070301;
-	padding: 0 1rem;
-	height: 100vh;
-	max-height: 100vh;
-	overflow: none;
+	.container {
+		background: #070301;
+		padding: 0 1rem;
+		height: 100vh;
+		max-height: 100vh;
+		overflow: hidden;
 
-	.card-description {
-		text-align: center;
-	}
-	.row {
-		display: flex;
-		height: 100%;
-		max-height: 100%;
-		margin-top: 1rem;
-		.col-details {
-			min-width: 400px;
-			width: 400px;
-			max-height: 75vh;
-			.playerlist {
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-around;
+		.card-description {
+			text-align: center;
+		}
+		.row {
+			display: flex;
+			height: 100%;
+			max-height: 100%;
+			margin-top: 1rem;
+			.col-details {
+				max-height: 65vh;
+				overflow-y: scroll;
+				min-width: 400px;
+				width: 400px;
+				max-height: 75vh;
+				margin-left: 2rem;
+				.playerlist {
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+				}
 			}
 		}
 	}
-}
 </style>

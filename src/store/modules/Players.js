@@ -4,7 +4,7 @@ import Badges from '@/data/badges.js'
 export default {
     state: {
         players: [],
-        playerColors: ['#A24270', '#66315A', "#2A2421", '#EFBE01', '#AC0104', '#DD6300', "#1A7F07", '#5C3C30', '#9A957E', "#005BA7", '#E5DED5'],
+        playerColors: ['#ff62ad', '#8d006d', "#201e1e", '#EFBE01', '#AC0104', '#DD6300', "#1A7F07", '#818181', "#005BA7", '#E5DED5'],
         playerBadges: Badges
     },
     getters: {
@@ -23,6 +23,7 @@ export default {
             if (state.players.length < 6) {
                 state.players.push({
                     name: badge.name,
+                    type: 'person',
                     smallMeeples: 7,
                     bigMeeples: 1,
                     points: 0,
@@ -31,10 +32,19 @@ export default {
                 })
             }
         },
-        removePlayer({ state, commit }, player) {
-            const players = state.players.filter(p => p.badge.name != player.badge.name)
+        removePlayer({ state }, player) {
+            const playersIndex = state.players.findIndex(p => p.badge.name === player.badge.name)
+            state.players.splice(playersIndex, 1)
             state.playerColors.push(player.color)
-            commit('players', players)
+        },
+        changeColor({ state }, player) {
+            const newColor = state.playerColors.splice(0, 1)
+            state.playerColors.push(player.color)
+            player.color = newColor
+        },
+        changeType({ state }, player) {
+            if (player.type === "person") player.type = "cpu"
+            else if (player.type === "cpu") player.type = "person"
 
         }
     }

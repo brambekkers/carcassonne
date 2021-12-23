@@ -1,0 +1,101 @@
+.playerInput {
+    position: relative;
+    margin: 0.3rem auto;
+
+    .input-badge {
+        position: relative;
+        z-index: 50;
+    }
+
+    .input-container {
+        z-index: 49;
+        position: absolute;
+        top: 7px;
+        left: 55px;
+        height: 90px;
+        width: 270px;
+        padding: 10px 50px;
+        .background {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            height: 100%;
+            width: 100%;
+            transform: skew(10deg);
+            background: url("@/assets/UI/wood-texture.jpg");
+            background-size: cover !important;
+            background-position: bottom !important;
+            box-shadow: 0 1px 2px #fff, 4px -1px 2px rgb(0 0 0 / 40%), inset 0 -5px 1px rgb(0 0 0 / 50%),
+                inset 0 7px 2px rgb(255 255 255 / 51%);
+        }
+
+        .playerType,
+        .close {
+            background: $bg;
+            position: absolute;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: solid 2px #bd8d4c;
+            color: #534a3e;
+            font-size: 1.5rem;
+
+            &:hover {
+                background: $bg-card;
+            }
+        }
+        .close {
+            top: -10px;
+            right: -10px;
+
+            .close-img {
+                height: 70%;
+                width: 70%;
+                background: url("@/assets/icons/cross.png");
+                background-size: cover !important;
+                background-position: center !important;
+                cursor: pointer;
+            }
+        }
+
+        .playerType {
+            bottom: 20px;
+            right: -20px;
+        }
+
+        .color {
+            position: relative;
+            padding: 0.6rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: $text-light;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            width: 200px;
+
+            .colorPicker {
+                position: absolute;
+                top: 0.6rem;
+                right: 0;
+                width: 100px;
+                height: 15px;
+                background-color: #bd8d4c;
+                border-radius: 35px;
+                display: inline-block;
+                cursor: pointer;
+                border: 2px solid #bd8d4c;
+            }
+        }
+
+        input {
+            margin-top: 5px;
+            width: 200px;
+        }
+    }
+}
