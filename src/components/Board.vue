@@ -72,7 +72,7 @@ export default {
 			}
 		},
 		zoom(e) {
-			const el = document.querySelector("#board");
+			const el = document.querySelector(".viewport");
 
 			if (e.deltaY > 0) {
 				const newVal = this.zoomIn.pos + this.zoomIn.speed;
@@ -109,9 +109,9 @@ export default {
 
 <style lang="scss" scoped>
 .viewport {
+	position: fixed;
 	width: 100vw;
 	height: 100vh;
-	overflow: hidden;
 	cursor: grab;
 }
 #board {
