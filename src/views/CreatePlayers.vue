@@ -37,7 +37,7 @@ export default {
 		...mapGetters(["players"]),
 	},
 	methods: {
-		...mapActions(["newGame"]),
+		...mapActions(["nextTurn"]),
 
 		goBack() {
 			this.$router.push("/");
@@ -45,6 +45,7 @@ export default {
 		async startGame() {
 			if (this.players.length >= 2) {
 				this.$router.push("/game");
+				this.nextTurn();
 			}
 		},
 	},

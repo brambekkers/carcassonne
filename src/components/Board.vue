@@ -1,6 +1,6 @@
 <template>
 	<div class="viewport">
-		<div id="board" class="test" :style="boardStyles">
+		<div id="board" :style="boardStyles">
 			<div v-for="(row, y) of board" class="row" :style="rowStyles">
 				<div v-for="(cell, x) of row" class="cell" :style="cellStyles">
 					<Tile :tile="cell" />
@@ -26,6 +26,7 @@ export default {
 				pos: 1,
 				speed: 0.1,
 				minZoom: 0.3,
+				maxZoom: 2,
 			},
 		};
 	},
@@ -71,10 +72,11 @@ export default {
 			}
 		},
 		zoom(e) {
-			const el = document.querySelector(".viewport");
+			const el = document.querySelector("#board");
 
 			if (e.deltaY > 0) {
 				const newVal = this.zoomIn.pos + this.zoomIn.speed;
+				if (newVal >= this.zoomIn.maxZoom) return;
 				this.zoomIn.pos = newVal;
 				el.style.transform = `scale(${newVal})`;
 			} else {

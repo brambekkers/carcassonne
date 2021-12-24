@@ -10,18 +10,18 @@ export default {
     mutations: {
     },
     actions: {
-        async newGame({ dispatch, commit }) {
+        async newGame({ getters, dispatch, commit }) {
             // reset current game
             commit('board', [])
 
             // Create new game 
             await dispatch('createTiles')
             await dispatch('createBoard')
-
-            // Start turn
             await dispatch('setNextTile')
             await dispatch('updateBoard')
-            return true
+
+            // Start turn
+            if (getters.player?.length) await dispatch('nextTurn')
         },
         async nextTurn({ dispatch, getters, commit }) {
             // Change player
@@ -36,11 +36,14 @@ export default {
             if (getters.tiles.length) {
                 await dispatch('setNextTile')
                 await dispatch('updateBoard')
+
+                // Check if player is CPU
+                if (getters.currentPlayer.type === 'cpu') {
+                    await dispatch('CPUPlay')
+                }
             } else {
                 alert('SPEL AFGELOPEN')
             }
-
-            return true
         }
     }
 };

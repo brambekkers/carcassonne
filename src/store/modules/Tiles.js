@@ -39,7 +39,7 @@ export default {
             commit('tiles', newTiles)
         },
         setNextTile({ state, commit }) {
-            if (state.tiles?.length) {
+            if (state.tiles?.length && !state.nextTile) {
                 commit('nextTile', state.tiles.splice(_.random(state.tiles.length - 1), 1)[0]);
             } else {
                 // game stops...
@@ -58,23 +58,29 @@ export default {
 
         },
         async rotateTile({ state, dispatch }, dir) {
-            // set new dir
-            state.nextTile.dir += dir
-            // rotate array
-            state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
+            return new Promise(async (resolve) => {
+                // set new dir
+                state.nextTile.dir += dir
+                // rotate array
+                state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
 
-            // Check for new spots
-            dispatch('clearMatchspots')
-            dispatch('findMatchspots')
+                // Check for new spots
+                await dispatch('clearMatchspots')
+                await dispatch('findMatchspots')
+                resolve()
+            });
         },
         tranpose({ }, { array, dir }) {
-            if (dir > 0) {
-                return array[0].map((val, index) => array.map(row => row[index]).reverse())
-            } else {
-                // return array[array.length - 1].map((val, index) => array.map(row => row[index]))
-                return (array[0].map((column, index) => (array.map(row => row[index])))).reverse()
+            return new Promise((resolve) => {
+                if (dir > 0) {
+                    resolve(array[0].map((val, index) => array.map(row => row[index]).reverse()))
+                } else {
+                    // return array[array.length - 1].map((val, index) => array.map(row => row[index]))
+                    resolve((array[0].map((column, index) => (array.map(row => row[index])))).reverse())
 
-            }
+                }
+            });
+
         }
     }
 };
