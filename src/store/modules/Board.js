@@ -37,7 +37,7 @@ export default {
             if (!state.matchSpots.length) {
                 console.log('no match spots found')
             }
-
+            return true
         },
         create2DArray({ state, commit }) {
             commit('board', [])
@@ -127,7 +127,7 @@ export default {
             return neighbors.flat()
 
         },
-        async setEmptyNeighbors({ state }, neighbors) {
+        async setEmptyNeighbors({ state, commit }, neighbors) {
             for (const n of neighbors) {
                 state.board[n.y][n.x].neighbor = true
             }

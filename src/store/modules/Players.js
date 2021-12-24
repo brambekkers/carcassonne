@@ -5,16 +5,19 @@ export default {
     state: {
         players: [],
         playerColors: ['#ff62ad', '#8d006d', "#201e1e", '#EFBE01', '#AC0104', '#DD6300', "#1A7F07", '#818181', "#005BA7", '#E5DED5'],
-        playerBadges: Badges
+        playerBadges: Badges,
+        CPNum: 0,
     },
     getters: {
         players: (s) => s.players,
         playerBadges: (s) => s.playerBadges,
+        CPNum: (s) => s.CPNum,
+        currentPlayer: (s) => s.players[s.CPNum],
     },
     mutations: {
         players: (s, v) => s.players = v,
         playerBadges: (s, v) => s.playerBadges = v,
-
+        nextPlayer: (s) => s.CPNum = (s.CPNum + 1) % s.players.length
     },
     actions: {
         addPlayer({ state }, { badge }) {
@@ -46,6 +49,9 @@ export default {
             if (player.type === "person") player.type = "cpu"
             else if (player.type === "cpu") player.type = "person"
 
+        },
+        setRandomPlayer({ }) {
+            state.currentPlayer = _.random(state.players.length - 1)
         }
     }
 };

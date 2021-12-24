@@ -49,14 +49,17 @@ export default {
             const tile = _.cloneDeep(getters.nextTile)
             getters.board[y][x] = { ...getters.board[y][x], ...tile, neighbor: false, empty: false }
             commit('nextTile', null);
+            commit('addLog', {
+                action: 'Place Tile',
+                msg: `${getters.currentPlayer?.name} placed a tile on x:${x}, y:${y}.`,
+                player: getters.CPNum,
+            });
             dispatch('nextTurn')
 
         },
         async rotateTile({ state, dispatch }, dir) {
             // set new dir
-            let newValue = state.nextTile.dir + dir
-            if (newValue === -360) newValue = 0
-            state.nextTile.dir = (newValue % 360)
+            state.nextTile.dir += dir
             // rotate array
             state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
 

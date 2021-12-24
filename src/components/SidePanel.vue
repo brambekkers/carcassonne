@@ -5,7 +5,7 @@
 				<i class="fal fa-compass" />
 				<div class="hint">Menu</div>
 			</div>
-			<div class="tab" @click="toggleMenu('stats')">
+			<div class="tab" @click="toggleMenu('logs')">
 				<i class="fal fa-user-friends" />
 				<div class="hint">Player stats</div>
 			</div>
@@ -17,7 +17,8 @@
 		</div>
 
 		<div class="sidebar_inner">
-			<Debug v-if="menu === 'debug'" />
+			<GameLogs v-if="menu === 'logs'" />
+			<Debug v-else-if="menu === 'debug'" />
 		</div>
 	</aside>
 	<div
@@ -28,6 +29,7 @@
 </template>
 
 <script>
+import GameLogs from "@/components/GameLogs.vue";
 import Debug from "@/components/Debug.vue";
 export default {
 	data() {
@@ -36,7 +38,7 @@ export default {
 			menu: "menu",
 		};
 	},
-	components: { Debug },
+	components: { Debug, GameLogs },
 	methods: {
 		toggleMenu(type) {
 			this.open = !this.open;

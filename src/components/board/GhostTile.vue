@@ -21,9 +21,7 @@ export default {
 	props: ["tile", "x", "y"],
 	computed: {
 		...mapGetters(["tileSize", "nextTile"]),
-		containerStyles() {
-			return {};
-		},
+
 		tileStyles() {
 			return {
 				width: `${this.tileSize}px`,

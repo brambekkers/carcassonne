@@ -20,19 +20,27 @@ export default {
 
             // Start turn
             await dispatch('setNextTile')
-            dispatch('updateBoard')
+            await dispatch('updateBoard')
+            return true
         },
-        nextTurn({ dispatch, getters }) {
-            console.log('next turn')
+        async nextTurn({ dispatch, getters, commit }) {
             // Change player
+            commit('nextPlayer')
+            commit('addLog', {
+                action: 'Next player',
+                msg: `Its ${getters.currentPlayer?.name}'s turn!`,
+                player: getters.CPNum,
+            });
 
             // next Tile
             if (getters.tiles.length) {
-                dispatch('setNextTile')
-                dispatch('updateBoard')
+                await dispatch('setNextTile')
+                await dispatch('updateBoard')
             } else {
                 alert('SPEL AFGELOPEN')
             }
+
+            return true
         }
     }
 };

@@ -55,7 +55,6 @@ export default {
 	methods: {
 		// To do: Check if this is the most efficient methode
 		hoverTile() {
-			console.log("hover");
 			// Clear timeout
 			if (this.timeout) {
 				clearTimeout(this.timeout);

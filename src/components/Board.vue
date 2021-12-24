@@ -22,6 +22,11 @@ export default {
 			sb: null,
 			pos: { top: 0, left: 0, x: 0, y: 0 },
 			dragEl: null,
+			zoomIn: {
+				pos: 1,
+				speed: 0.1,
+				minZoom: 0.3,
+			},
 		};
 	},
 	computed: {
@@ -47,27 +52,55 @@ export default {
 	},
 	methods: {
 		...mapActions(["createBoard", "rotateTile"]),
-	},
-	mounted() {
-		// Create new scroll instance
-		const view = document.querySelector(".viewport");
-		this.sb = new ScrollBooster({
-			viewport: view,
-			scrollMode: "transform",
-		});
+		addScroll() {
+			// Create new scroll instance
+			const view = document.querySelector(".viewport");
+			this.sb = new ScrollBooster({
+				viewport: view,
+				scrollMode: "transform",
+			});
 
-		// Position in middle
-		const x = view.scrollWidth / 2 - view.offsetWidth / 2;
-		const y = view.scrollHeight / 2 - view.offsetHeight / 2;
-		this.sb.setPosition({ x, y });
-	},
-	created() {
-		this.createBoard();
-		document.addEventListener("keypress", (e) => {
+			// Position in middle
+			const x = view.scrollWidth / 2 - view.offsetWidth / 2;
+			const y = view.scrollHeight / 2 - view.offsetHeight / 2;
+			this.sb.setPosition({ x, y });
+		},
+		rotate(e) {
 			if (e.key == "r") {
 				this.rotateTile(90);
 			}
-		});
+		},
+		zoom(e) {
+			const el = document.querySelector(".viewport");
+
+			if (e.deltaY > 0) {
+				const newVal = this.zoomIn.pos + this.zoomIn.speed;
+				this.zoomIn.pos = newVal;
+				el.style.transform = `scale(${newVal})`;
+			} else {
+				const newVal = this.zoomIn.pos - this.zoomIn.speed;
+				if (newVal <= this.zoomIn.minZoom) return;
+				this.zoomIn.pos = newVal;
+				el.style.transform = `scale(${newVal})`;
+			}
+		},
+	},
+	mounted() {
+		this.addScroll();
+
+		// rotate
+		document.addEventListener("keypress", this.rotate);
+
+		// Zoom
+		document.addEventListener("wheel", this.zoom);
+	},
+	beforeUnmount() {
+		console.log("ik draai");
+		this.sb.destroy();
+		document.removeEventListener("keypress", this.rotate);
+	},
+	created() {
+		this.createBoard();
 	},
 };
 </script>

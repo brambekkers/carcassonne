@@ -1,0 +1,28 @@
+.log {
+	position: relative;
+	background: $bg;
+	margin: 0.5rem;
+	padding: 0.5rem 1rem;
+	color: #bd8d4c;
+	border-radius: 20px;
+
+	.title {
+		margin-top: 0.4rem;
+		margin-bottom: 0.4rem;
+		line-height: 0.9rem;
+	}
+
+	p {
+		font-size: 0.8rem;
+	}
+
+	.time {
+		position: absolute;
+		font-size: 0.8rem;
+
+		right: 1rem;
+		top: 0.3rem;
+		letter-spacing: 1px;
+		font-weight: 300;
+	}
+}
