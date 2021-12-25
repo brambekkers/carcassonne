@@ -1,11 +1,11 @@
 <template>
-	<div class="container">
+	<div class="container-fixed">
 		<Card>
 			<h1 class="h1 card-title">Add players</h1>
 			<p class="card-description">Choose the characters you want to play with!</p>
 
 			<div class="row">
-				<div class="col-details">
+				<div class="col details ps-4">
 					<CardSM>
 						<h1 class="card-title">Players</h1>
 						<div class="playerlist">
@@ -15,10 +15,12 @@
 						</div>
 					</CardSM>
 				</div>
-				<BadgePicker />
-				<div class="buttons">
-					<button class="btn" @click="goBack">Go Back</button>
-					<button class="btn" @click="startGame">Start Game</button>
+				<div class="col h-100">
+					<BadgePicker />
+					<div class="buttons">
+						<button class="btn" @click="goBack">Go Back</button>
+						<button class="btn" @click="startGame">Start Game</button>
+					</div>
 				</div>
 			</div>
 		</Card>
@@ -37,7 +39,7 @@ export default {
 		...mapGetters(["players"]),
 	},
 	methods: {
-		...mapActions(["nextTurn"]),
+		...mapActions(["newGame", "nextTurn"]),
 
 		goBack() {
 			this.$router.push("/");
@@ -45,6 +47,7 @@ export default {
 		async startGame() {
 			if (this.players.length >= 2) {
 				this.$router.push("/game");
+				this.newGame();
 				this.nextTurn();
 			}
 		},
@@ -53,7 +56,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.container-fixed {
 	background: #070301;
 	padding: 0 1rem;
 	height: 100vh;
@@ -65,31 +68,28 @@ export default {
 	}
 	.row {
 		display: flex;
-		height: 100%;
+		height: calc(100vh - 200px - 7vw);
 		max-height: 100%;
 		margin-top: 1rem;
-		.col-details {
+		.details {
 			overflow-y: scroll;
-			min-width: 400px;
-			width: 400px;
-			max-height: 75vh;
-			margin-left: 2rem;
+			min-width: max-content;
+			max-width: max-content;
+			height: 100%;
+
 			.playerlist {
-				padding: 0 2rem;
 				padding-bottom: 3rem;
-				height: 100%;
+				height: max-content;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-around;
 				overflow-y: scroll;
+				overflow-x: hidden;
 			}
 		}
 		.buttons {
-			position: absolute;
-			bottom: 3vw;
+			margin-top: 15px;
 			width: 100%;
-			left: 0;
-			margin-bottom: 1rem;
 			display: flex;
 			justify-content: center;
 			gap: 1rem;

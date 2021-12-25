@@ -4,6 +4,9 @@
 @import "./abstract/variable";
 @import "./abstract/functions";
 
+// 2. Bootstrap CSS
+@import "node_modules/bootstrap/scss/bootstrap";
+
 // 3. base
 @import "./base/color";
 @import "./base/fonts";
@@ -22,6 +25,7 @@
 	padding: 0;
 	box-sizing: border-box;
 	scrollbar-width: thin;
+	scroll-behavior: smooth;
 	scrollbar-color: #b1b3c3 #f3f6f9;
 }
 

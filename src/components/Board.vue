@@ -1,7 +1,7 @@
 <template>
 	<div class="viewport">
 		<div id="board" :style="boardStyles">
-			<div v-for="(row, y) of board" class="row" :style="rowStyles">
+			<div v-for="(row, y) of board" class="board_row" :style="rowStyles">
 				<div v-for="(cell, x) of row" class="cell" :style="cellStyles">
 					<Tile :tile="cell" />
 				</div>
@@ -119,7 +119,7 @@ export default {
 	min-height: 4000px;
 	display: flex;
 	flex-direction: column;
-	.row {
+	.board_row {
 		display: flex;
 		height: 100%;
 

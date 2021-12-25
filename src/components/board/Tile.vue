@@ -20,7 +20,7 @@
 		<div v-else-if="emptyTiles" :style="backStyles" class="tile back" />
 	</div>
 	<NeighborTile
-		v-else-if="tile.neighbor"
+		v-else-if="tile.neighbor && currentPlayer?.type === 'person'"
 		:tile="tile"
 		:hover="hover"
 		@mouseover="hoverTile"
@@ -43,7 +43,13 @@ export default {
 	},
 	components: { DebugTile, GhostTile, NeighborTile },
 	computed: {
-		...mapGetters(["tileColors", "nextTile", "tileSize", "emptyTiles"]),
+		...mapGetters([
+			"tileColors",
+			"nextTile",
+			"tileSize",
+			"emptyTiles",
+			"currentPlayer",
+		]),
 
 		tileStyles() {
 			return {

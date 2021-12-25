@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container-fixed">
 		<div class="tile ghostTile" :style="tileStyles" @click.self="place" />
 		<img
 			class="rotateLeft"
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.container-fixed {
 	position: relative;
 	.rotateLeft,
 	.rotateRight {

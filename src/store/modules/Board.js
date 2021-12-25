@@ -6,18 +6,19 @@ export default {
         board: [],
         boardSize: { x: 20, y: 20 },
         neighbors: [],
-        matchSpots: [],
+        allMatchSpots: [],
     },
     getters: {
         board: (s) => s.board,
         boardSize: (s) => s.boardSize,
         neighbors: (s) => s.neighbors,
-        matchSpots: (s) => s.matchSpots,
+        allMatchSpots: (s) => s.allMatchSpots,
+        matchSpots: (s, g) => s.allMatchSpots.filter(m => m.dir === (g.nextTile.dir % 360)).map(m => m.neighbor),
     },
     mutations: {
         board: (s, v) => s.board = v,
         neighbors: (s, v) => s.neighbors = v,
-        matchSpots: (s, v) => s.matchSpots = v,
+        allMatchSpots: (s, v) => s.allMatchSpots = v,
     },
     actions: {
         async createBoard({ dispatch }) {
@@ -32,9 +33,11 @@ export default {
             await dispatch('setEmptyNeighbors', neighbors)
 
             // Find match spots
-            await dispatch('clearMatchspots')
-            await dispatch('findMatchspots')
-            if (!state.matchSpots.length) {
+            await dispatch('clearMatches')
+            commit('allMatchSpots', [])
+            await dispatch('findAllMatches')
+            await dispatch('setNeighborsMatches')
+            if (!state.allMatchSpots.length) {
                 console.log('no match spots found')
             }
             return true
@@ -56,55 +59,93 @@ export default {
             }
             commit('board', newBoard)
         },
-        clearMatchspots({ state, commit }) {
+        clearMatches({ state, commit }) {
             state.neighbors.forEach(n => n.match = false)
-            commit('matchSpots', [])
         },
-        async findMatchspots({ state, getters, dispatch }) {
-            for (const n of state.neighbors) {
-                const nt = getters.nextTile
-                let match = true
-                const [top, right, bottom, left] = await dispatch('findNeighborsOfCell', { x: n.x, y: n.y })
-                if (!top.empty) {
-                    if (
-                        nt.format[0][1] != top.format[4][1] ||
-                        nt.format[0][2] != top.format[4][2] ||
-                        nt.format[0][3] != top.format[4][3]) {
-                        match = false
-                    }
-                }
-                if (!right.empty) {
-                    if (
-                        nt.format[1][4] != right.format[1][0] ||
-                        nt.format[2][4] != right.format[2][0] ||
-                        nt.format[3][4] != right.format[3][0]) {
-                        match = false
-                    }
-                }
-                if (!bottom.empty) {
-                    if (
-                        nt.format[4][1] != bottom.format[0][1] ||
-                        nt.format[4][2] != bottom.format[0][2] ||
-                        nt.format[4][3] != bottom.format[0][3]) {
-                        match = false
-                    }
-                }
-                if (!left.empty) {
-                    if (
-                        nt.format[1][0] != left.format[1][4] ||
-                        nt.format[2][0] != left.format[2][4] ||
-                        nt.format[3][0] != left.format[3][4]) {
-                        match = false
-                    }
-                }
-                // Set neighbor match
-                if (match) {
-                    n.match = match
-                    state.matchSpots.push(n)
-                }
-
+        async setNeighborsMatches({ commit, getters }) {
+            for (const m of getters.matchSpots) {
+                m.match = true
             }
+        },
+        async findAllMatches({ state, getters, dispatch }) {
+            // Check all neighbors for potential matches
+            for (const n of state.neighbors) {
+                // Check all sides
+                const [top, right, bottom, left] = await dispatch('findNeighborsOfCell', { x: n.x, y: n.y })
 
+                // Rotate the array
+                const positions = [0, 1, 2, 3]
+                for (const pos of positions) {
+                    let match = true
+                    let array = _.cloneDeep(getters.nextTile.format)
+                    for (let i = 0; i < pos; i++) {
+                        array = await dispatch('tranpose', { array, dir: 90 })
+                    }
+
+                    if (!top.empty) {
+                        const topMatch = await dispatch('checkMatch', { centerArray: array, checkArray: top.format, side: 'top' })
+                        if (!topMatch) match = false
+                    }
+                    if (!right.empty) {
+                        const rightMatch = await dispatch('checkMatch', { centerArray: array, checkArray: right.format, side: 'right' })
+                        if (!rightMatch) match = false
+                    }
+                    if (!bottom.empty) {
+                        const bottomMatch = await dispatch('checkMatch', { centerArray: array, checkArray: bottom.format, side: 'bottom' })
+                        if (!bottomMatch) match = false
+                    }
+                    if (!left.empty) {
+                        const leftMatch = await dispatch('checkMatch', { centerArray: array, checkArray: left.format, side: 'left' })
+                        if (!leftMatch) match = false
+                    }
+                    // Set neighbor match
+                    if (match) {
+                        const allreadyInArray = state.allMatchSpots.find(m => m.neighbor.x === n.x && m.neighbor.y === n.y && m.dir === (pos * 90))
+                        if (!allreadyInArray) {
+                            state.allMatchSpots.push({
+                                neighbor: n,
+                                dir: pos * 90
+                            })
+                        }
+                    }
+                }
+            }
+        },
+        async checkMatch({ }, { side, centerArray, checkArray }) {
+            let match = true
+            if (side === 'top') {
+                if (
+                    centerArray[0][1] != checkArray[4][1] ||
+                    centerArray[0][2] != checkArray[4][2] ||
+                    centerArray[0][3] != checkArray[4][3]) {
+                    match = false
+                }
+            }
+            if (side === 'right') {
+                if (
+                    centerArray[1][4] != checkArray[1][0] ||
+                    centerArray[2][4] != checkArray[2][0] ||
+                    centerArray[3][4] != checkArray[3][0]) {
+                    match = false
+                }
+            }
+            if (side === 'bottom') {
+                if (
+                    centerArray[4][1] != checkArray[0][1] ||
+                    centerArray[4][2] != checkArray[0][2] ||
+                    centerArray[4][3] != checkArray[0][3]) {
+                    match = false
+                }
+            }
+            if (side === 'left') {
+                if (
+                    centerArray[1][0] != checkArray[1][4] ||
+                    centerArray[2][0] != checkArray[2][4] ||
+                    centerArray[3][0] != checkArray[3][4]) {
+                    match = false
+                }
+            }
+            return match
         },
         placeStartTile({ state, getters }) {
             const startTile = _.cloneDeep(getters.tiles.find(t => t.startTile))

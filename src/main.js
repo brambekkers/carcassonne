@@ -4,6 +4,10 @@ import store from "./store";
 // Import Font Awesome
 import "@/assets/fonts/fa/all.min.css";
 
+// Bootstrap
+import "popper.js";
+import "bootstrap";
+
 // Main styling
 import "@/scss/main.scss";
 import 'animate.css';

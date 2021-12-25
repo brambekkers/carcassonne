@@ -5,7 +5,7 @@ export default {
         debug: {
             tileColors: false,
             emptyTiles: false,
-            posibleSpots: false,
+            posibleSpots: true,
         }
     },
     getters: {

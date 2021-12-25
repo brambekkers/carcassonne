@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container-fluid">
 		<Card>
 			<div class="menu">
 				<img class="logo" src="@/assets/splash@200pct.png" />
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.container-fluid {
 	background: #070301;
 	padding: 1rem;
 	height: 100vh;

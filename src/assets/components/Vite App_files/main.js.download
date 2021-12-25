@@ -1,0 +1,17 @@
+import { createApp } from '/node_modules/.vite/vue.js?v=2993f555'
+import router from "/src/router/index.js?t=1640425003753";
+import store from "/src/store/index.js";
+// Import Font Awesome
+import "/src/assets/fonts/fa/all.min.css";
+
+// Bootstrap
+import "/node_modules/.vite/popper_js.js?v=2993f555";
+import "/node_modules/.vite/bootstrap.js?v=2993f555";
+
+// Main styling
+import "/src/scss/main.scss?t=1640424763407";
+import '/node_modules/animate.css/animate.css';
+
+
+import App from '/src/App.vue?t=1640424012074'
+createApp(App).use(router).use(store).mount('#app')

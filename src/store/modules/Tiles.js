@@ -65,8 +65,8 @@ export default {
                 state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
 
                 // Check for new spots
-                await dispatch('clearMatchspots')
-                await dispatch('findMatchspots')
+                await dispatch('clearMatches')
+                await dispatch('setNeighborsMatches')
                 resolve()
             });
         },

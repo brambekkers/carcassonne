@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import GameLogs from "@/components/GameLogs.vue";
-import Debug from "@/components/Debug.vue";
+import GameLogs from "@/components/sidepanel/GameLogs.vue";
+import Debug from "@/components/sidepanel/Debug.vue";
 export default {
 	data() {
 		return {
