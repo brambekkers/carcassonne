@@ -3,7 +3,7 @@
 export default {
     state: {
         debug: {
-            tileColors: false,
+            tileColors: true,
             emptyTiles: false,
             posibleSpots: true,
         }

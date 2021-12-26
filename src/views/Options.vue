@@ -1,17 +1,25 @@
 <template>
 	<div class="container-fluid">
 		<Card>
+			<h1 class="h1 card-title">Options</h1>
+
 			<div class="menu">
-				<img class="logo" src="@/assets/splash@200pct.png" />
 				<div class="buttons">
-					<button class="btn btn-lg" @click="$router.push('/createplayers')">
-						New Game
+					<button class="btn btn-lg" @click="$router.push('/options/rules')">
+						Rules
 					</button>
-					<button class="btn btn-lg" @click="$router.push('/options')">
-						Options
+					<button class="btn btn-lg" @click="$router.push('/options/tileamount')">
+						Tile amount
 					</button>
-					<button class="btn btn-lg" @click="$router.push('/rules')">Rules</button>
-					<button class="btn btn-lg btn-dark">Exit</button>
+					<button class="btn btn-lg" @click="$router.push('/options/grapics')">
+						Graphics
+					</button>
+					<button class="btn btn-lg" @click="$router.push('/options/sounds')">
+						Sounds
+					</button>
+					<button class="btn btn-lg btn-dark" @click="$router.push('/')">
+						Back
+					</button>
 				</div>
 			</div>
 		</Card>
@@ -30,7 +38,6 @@ export default {
 	background: #070301;
 	padding: 1rem;
 	height: 100vh;
-
 	.menu {
 		display: flex;
 		flex-direction: column;
@@ -38,11 +45,12 @@ export default {
 		justify-content: center;
 		height: 100%;
 		width: 100%;
-		background-image: url("@/assets/UI/bg-card.jpg");
-		background-size: 138vw;
+		background-image: url("@/assets/UI/bg-horse.png");
+		background-size: 25vw;
 		background-repeat: no-repeat;
-		background-position-x: -4vw;
-		background-position-y: -17vh;
+		background-position: right;
+		background-position-x: 65vw;
+		background-position-y: 15vh;
 
 		.logo {
 			/* height: 100%; */

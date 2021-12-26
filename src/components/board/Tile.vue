@@ -6,7 +6,7 @@
 		@mouseleave="hover = false"
 	>
 		<div class="tile" :style="tileStyles" v-if="!tile.empty">
-			<DebugTile v-if="tileColors" :format="tile.format" :dir="tile.dir" />
+			<TileSpots :format="tile.format" :dir="tile.dir" :x="tile.x" :y="tile.y" />
 		</div>
 
 		<!-- Ghost tile that spawns if tile is hoverd -->
@@ -30,18 +30,18 @@
 
 <script>
 import { mapGetters } from "vuex";
-import DebugTile from "@/components/board/DebugTile.vue";
+import TileSpots from "@/components/board/TileSpots.vue";
 import GhostTile from "@/components/board/GhostTile.vue";
 import NeighborTile from "@/components/board/NeighborTile.vue";
 export default {
-	props: ["tile", "x", "y"],
+	props: ["tile"],
 	data() {
 		return {
 			timeout: null,
 			hover: false,
 		};
 	},
-	components: { DebugTile, GhostTile, NeighborTile },
+	components: { TileSpots, GhostTile, NeighborTile },
 	computed: {
 		...mapGetters([
 			"tileColors",

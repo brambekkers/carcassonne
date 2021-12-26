@@ -10,32 +10,35 @@ export default {
         newTile: {
             dir: 0,
         },
-
+        originalTiles: Tiles,
         // In game
-        nextTile: null
+        nextTile: null,
+        lastTile: { x: null, y: null }
     },
     getters: {
         tiles: (s) => s.tiles,
+        originalTiles: (s) => s.originalTiles,
         tileSize: (s) => s.tileSize,
         tileGap: (s) => s.tileGap,
         newTile: (s) => s.newTile,
-        nextTile: (s) => s.nextTile
+        nextTile: (s) => s.nextTile,
+        lastTile: (s) => s.lastTile
     },
     mutations: {
         tiles: (s, v) => s.tiles = v,
         nextTile: (s, v) => s.nextTile = v,
+        lastTile: (s, v) => s.lastTile = v,
     },
     actions: {
-        createTiles({ commit, getters }) {
-            const newTile = getters.newTile
+        createTiles({ commit, state }) {
+            const newTile = state.newTile
             const newTiles = []
 
-            Tiles.forEach(tile => {
+            state.originalTiles.forEach(tile => {
                 for (let i = 0; i < tile.amount; i++) {
                     newTiles.push({ ...newTile, ...tile })
                 }
             })
-
             commit('tiles', newTiles)
         },
         setNextTile({ state, commit }) {
@@ -54,6 +57,7 @@ export default {
                 msg: `${getters.currentPlayer?.name} placed a tile on x:${x}, y:${y}.`,
                 player: getters.CPNum,
             });
+            commit('lastTile', { x, y })
             dispatch('nextTurn')
 
         },

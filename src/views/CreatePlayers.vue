@@ -47,8 +47,8 @@ export default {
 		async startGame() {
 			if (this.players.length >= 2) {
 				this.$router.push("/game");
-				this.newGame();
-				this.nextTurn();
+				await this.newGame();
+				await this.nextTurn();
 			}
 		},
 	},

@@ -4,11 +4,15 @@ import Game from "@/views/Game.vue";
 import Menu from "@/views/Menu.vue";
 import CreatePlayers from "@/views/CreatePlayers.vue";
 
+// Options
+import Options from "@/views/Options.vue";
+import TileAmount from "@/views/options/TileAmount.vue";
+
 
 const routes = [
     {
         path: "/game",
-        name: "Het spel",
+        name: "The Game",
         component: Game,
         meta: {
             sidepanel: true,
@@ -16,7 +20,7 @@ const routes = [
     },
     {
         path: "/",
-        name: "Hoofdmenu",
+        name: "Main Menu",
         component: Menu,
         meta: {
             sidepanel: false,
@@ -24,8 +28,25 @@ const routes = [
     },
     {
         path: "/createplayers",
-        name: "Maak spelers",
+        name: "Create Players",
         component: CreatePlayers,
+        meta: {
+            sidepanel: false,
+        }
+    },
+    // Options
+    {
+        path: "/options",
+        name: "Options",
+        component: Options,
+        meta: {
+            sidepanel: false,
+        }
+    },
+    {
+        path: "/options/tileamount",
+        name: "Tile Amount",
+        component: TileAmount,
         meta: {
             sidepanel: false,
         }
