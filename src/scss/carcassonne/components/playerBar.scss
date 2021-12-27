@@ -1,20 +1,22 @@
 .playerInput {
     position: relative;
-    margin: 0.3rem auto;
 
     .input-badge {
         position: relative;
         z-index: 50;
     }
 
-    .input-container {
+    .inputContainer,
+    .playerStats {
         z-index: 49;
         position: absolute;
         top: 7px;
         left: 55px;
         height: 90px;
-        width: 270px;
         padding: 10px 50px;
+        pointer-events: auto;
+        transition: all 0.4s ease-in-out;
+
         .background {
             position: absolute;
             left: 0;
@@ -30,12 +32,20 @@
                 inset 0 7px 2px rgb(255 255 255 / 51%);
         }
 
+        .playerName {
+            color: $dark;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-shadow: -1px 0 #9b6019, 0 1px #9b6019, 1px 0 #9b6019, 0 -1px #9b6019;
+        }
+
         .playerType,
         .close {
             background: $bg;
             position: absolute;
             height: 40px;
             width: 40px;
+            font-family: $base-font !important;
             border-radius: 50%;
 
             display: flex;
@@ -96,6 +106,58 @@
         input {
             margin-top: 5px;
             width: 200px;
+        }
+
+        .stats {
+            position: relative;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: $text-light;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            width: 130%;
+            padding: 0 0 0 1rem;
+            gap: 1.5rem;
+
+            display: flex;
+            justify-content: space-around;
+            .stat {
+                background: #191c27;
+                height: 30px;
+                width: 80px;
+                position: relative;
+                border-radius: 8px;
+                text-align: center;
+                color: white;
+                line-height: 30px;
+                padding-left: 10px;
+
+                .icon {
+                    position: absolute;
+                    left: -20px;
+                    top: -5px;
+                    width: 40px;
+                    height: 40px;
+
+                    .meeple,
+                    .diamonds {
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .inputContainer {
+        width: 270px;
+    }
+    .playerStats {
+        width: 200px;
+        transition: all 0.4s ease-in-out;
+    }
+    &:hover {
+        .playerStats {
+            width: 250px;
         }
     }
 }

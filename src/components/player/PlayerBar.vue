@@ -7,7 +7,7 @@
 			:background="player.color"
 			:zoom="true"
 		/>
-		<div class="input-container">
+		<div class="inputContainer" v-if="hasInput">
 			<div class="background" />
 			<span class="close" @click="removePlayer(player)">
 				<button class="close-img btn-transparant" />
@@ -22,16 +22,35 @@
 				<span class="colorPicker" :style="colorStyles" @click="changeColor(player)" />
 			</div>
 		</div>
+		<div class="playerStats" v-else>
+			<div class="background" />
+			<span class="playerName">{{player.name}}</span>
+			<div class="stats">
+				<div class="stat">
+					<div class="icon">
+						<Meeple class="meeple" :color="player.color" />
+					</div>
+					{{player.smallMeeples}}
+				</div>
+				<div class="stat">
+					<div class="icon">
+						<img class="diamonds" src="@/assets/UI/diamonds.png" />
+					</div>
+					{{player.points}}
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
+	import Meeple from "@/components/meeple/Meeple.vue";
 	import Badge from "@/components/player/Badge.vue";
-	import { mapActions } from "vuex";
+	import { mapActions, mapGetters } from "vuex";
 
 	export default {
-		props: ["player"],
-		components: { Badge },
+		props: ["player", "hasInput"],
+		components: { Badge, Meeple },
 		methods: {
 			...mapActions(["removePlayer", "changeColor", "changeType"])
 		},

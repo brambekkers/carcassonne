@@ -5,9 +5,9 @@
 			@click="placeMeeple({tile, x, y})"
 		>
 			<div class="meepleContainer">
-				<Meeple />
+				<Meeple :color="currentPlayer.color" />
 			</div>
-			<i class="fas fa-caret-down" />
+			<i class="fas fa-caret-down" :style="caretStyle" />
 		</div>
 		<div class="placeSpot animate__animated animate__pulse animate__infinite animate__slower" />
 	</div>
@@ -21,10 +21,16 @@
 		props: ["tile", "x", "y"],
 		components: { Meeple },
 		computed: {
+			...mapGetters(["currentPlayer"]),
 			isPlaceSpot() {
 				return this.tile.meepleSpots?.filter(
 					s => s.pos.x === this.x && s.pos.y === this.y
 				).length;
+			},
+			caretStyle() {
+				return {
+					color: this.currentPlayer.color
+				};
 			}
 		},
 		methods: {
@@ -67,6 +73,11 @@
 			.meepleContainer {
 				width: 50px;
 				height: 50px;
+
+				svg {
+					width: 100%;
+					height: 100%;
+				}
 			}
 
 			i {

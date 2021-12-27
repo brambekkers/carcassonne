@@ -11,120 +11,121 @@
 </template>
 
 <script>
-import ScrollBooster from "scrollbooster";
-import Tile from "@/components/board/Tile.vue";
-import { mapGetters, mapActions } from "vuex";
+	import ScrollBooster from "scrollbooster";
+	import Tile from "@/components/board/Tile.vue";
+	import { mapGetters, mapActions } from "vuex";
 
-export default {
-	components: { Tile },
-	data() {
-		return {
-			sb: null,
-			pos: { top: 0, left: 0, x: 0, y: 0 },
-			dragEl: null,
-			zoomIn: {
-				pos: 1,
-				speed: 0.1,
-				minZoom: 0.3,
-				maxZoom: 2,
+	export default {
+		components: { Tile },
+		data() {
+			return {
+				sb: null,
+				pos: { top: 0, left: 0, x: 0, y: 0 },
+				dragEl: null,
+				zoomIn: {
+					pos: 1,
+					speed: 0.1,
+					minZoom: 0.3,
+					maxZoom: 2
+				}
+			};
+		},
+		computed: {
+			...mapGetters(["tiles", "board", "boardSize", "tileSize", "tileGap"]),
+			boardStyles() {
+				return {
+					width: `${(this.tileSize + this.tileGap) * this.boardSize.x}px`,
+					height: `${(this.tileSize + this.tileGap) * this.boardSize.y}px`,
+					gap: `${this.tileGap}px`
+				};
 			},
-		};
-	},
-	computed: {
-		...mapGetters(["tiles", "board", "boardSize", "tileSize", "tileGap"]),
-		boardStyles() {
-			return {
-				width: `${(this.tileSize + this.tileGap) * this.boardSize.x}px`,
-				height: `${(this.tileSize + this.tileGap) * this.boardSize.y}px`,
-				gap: `${this.tileGap}px`,
-			};
-		},
-		rowStyles() {
-			return {
-				gap: `${this.tileGap}px`,
-			};
-		},
-		cellStyles() {
-			return {
-				width: `${this.tileSize}px`,
-				height: `${this.tileSize}px`,
-			};
-		},
-	},
-	methods: {
-		...mapActions(["createBoard", "rotateTile"]),
-		addScroll() {
-			// Create new scroll instance
-			const view = document.querySelector(".viewport");
-			this.sb = new ScrollBooster({
-				viewport: view,
-				scrollMode: "transform",
-			});
-
-			// Position in middle
-			const x = view.scrollWidth / 2 - view.offsetWidth / 2;
-			const y = view.scrollHeight / 2 - view.offsetHeight / 2;
-			this.sb.setPosition({ x, y });
-		},
-		rotate(e) {
-			if (e.key == "r") {
-				this.rotateTile(90);
+			rowStyles() {
+				return {
+					gap: `${this.tileGap}px`
+				};
+			},
+			cellStyles() {
+				return {
+					width: `${this.tileSize}px`,
+					height: `${this.tileSize}px`
+				};
 			}
 		},
-		zoom(e) {
-			const el = document.querySelector(".viewport");
+		methods: {
+			...mapActions(["createBoard", "rotateTile"]),
+			addScroll() {
+				// Create new scroll instance
+				const view = document.querySelector(".viewport");
+				this.sb = new ScrollBooster({
+					viewport: view,
+					scrollMode: "transform"
+				});
 
-			if (e.deltaY > 0) {
-				const newVal = this.zoomIn.pos + this.zoomIn.speed;
-				if (newVal >= this.zoomIn.maxZoom) return;
-				this.zoomIn.pos = newVal;
-				el.style.transform = `scale(${newVal})`;
-			} else {
-				const newVal = this.zoomIn.pos - this.zoomIn.speed;
-				if (newVal <= this.zoomIn.minZoom) return;
-				this.zoomIn.pos = newVal;
-				el.style.transform = `scale(${newVal})`;
+				// Position in middle
+				const x = view.scrollWidth / 2 - view.offsetWidth / 2;
+				const y = view.scrollHeight / 2 - view.offsetHeight / 2;
+				this.sb.setPosition({ x, y });
+			},
+			rotate(e) {
+				if (e.key == "r") {
+					this.rotateTile(90);
+				}
+			},
+			zoom(e) {
+				const el = document.querySelector(".viewport");
+
+				if (e.deltaY > 0) {
+					const newVal = this.zoomIn.pos + this.zoomIn.speed;
+					if (newVal >= this.zoomIn.maxZoom) return;
+					this.zoomIn.pos = newVal;
+					el.style.transform = `scale(${newVal})`;
+				} else {
+					const newVal = this.zoomIn.pos - this.zoomIn.speed;
+					if (newVal <= this.zoomIn.minZoom) return;
+					this.zoomIn.pos = newVal;
+					el.style.transform = `scale(${newVal})`;
+				}
 			}
 		},
-	},
-	mounted() {
-		this.addScroll();
+		mounted() {
+			this.addScroll();
 
-		// rotate
-		document.addEventListener("keypress", this.rotate);
+			// rotate
+			document.addEventListener("keypress", this.rotate);
 
-		// Zoom
-		document.addEventListener("wheel", this.zoom);
-	},
-	beforeUnmount() {
-		console.log("ik draai");
-		this.sb.destroy();
-		document.removeEventListener("keypress", this.rotate);
-	},
-	created() {
-		this.createBoard();
-	},
-};
+			// Zoom
+			document.addEventListener("wheel", this.zoom);
+		},
+		beforeUnmount() {
+			console.log("ik draai");
+			this.sb.destroy();
+			document.removeEventListener("keypress", this.rotate);
+		},
+		created() {
+			this.createBoard();
+		}
+	};
 </script>
 
 <style lang="scss" scoped>
-.viewport {
-	position: fixed;
-	width: 100vw;
-	height: 100vh;
-	cursor: grab;
-}
-#board {
-	min-width: 4000px;
-	min-height: 4000px;
-	display: flex;
-	flex-direction: column;
-	.board_row {
+	.viewport {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		cursor: grab;
+	}
+	#board {
+		min-width: 4000px;
+		min-height: 4000px;
 		display: flex;
-		height: 100%;
+		flex-direction: column;
+		transform-style: preserve-3d;
+		.board_row {
+			display: flex;
+			height: 100%;
 
-		.cell {
+			.cell {
+			}
 		}
 	}
-}
 </style>
