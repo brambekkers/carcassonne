@@ -7,4 +7,5 @@ import Players from "./modules/Players";
 import Logs from "./modules/Logs";
 import Meeple from "./modules/Meeple";
 import CPU from "./modules/CPU";
-export default createStore({ modules: { Game, Board, Tiles, Debug, Players, Logs, CPU, Meeple } });
+import Graphics from "./modules/Graphics";
+export default createStore({ modules: { Game, Board, Tiles, Debug, Players, Logs, CPU, Meeple, Graphics } });

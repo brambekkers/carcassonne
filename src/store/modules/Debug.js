@@ -3,9 +3,9 @@
 export default {
     state: {
         debug: {
-            tileColors: true,
+            tileColors: false,
             emptyTiles: false,
-            posibleSpots: true,
+            posibleSpots: false,
         }
     },
     getters: {

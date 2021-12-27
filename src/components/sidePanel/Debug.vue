@@ -22,6 +22,40 @@
 			</div>
 		</div>
 	</CardSM>
+	<CardSM>
+		<div class="container">
+			<h5 class="card-title">Graphics</h5>
+			<hr />
+			<div>
+				<label for="perspective" class="form-label"
+					>Perspective: ({{ perspective.perspective }})</label
+				>
+				<input
+					type="range"
+					class="form-range"
+					min="0"
+					max="5000"
+					step="200"
+					v-model="perspective.perspective"
+					id="perspective"
+				/>
+			</div>
+			<div>
+				<label for="rotateX" class="form-label"
+					>Rotate X: ({{ perspective.rotateX }})</label
+				>
+				<input
+					type="range"
+					class="form-range"
+					min="0"
+					max="75"
+					step="1"
+					v-model="perspective.rotateX"
+					id="rotateX"
+				/>
+			</div>
+		</div>
+	</CardSM>
 </template>
 
 <script>
@@ -34,7 +68,7 @@ export default {
 	},
 	components: { CardSM },
 	computed: {
-		...mapGetters(["debug", "tiles", "currentPlayer", "CPNum"]),
+		...mapGetters(["debug", "tiles", "currentPlayer", "CPNum", "perspective"]),
 	},
 	methods: {
 		toggle(bool) {

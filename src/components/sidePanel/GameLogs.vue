@@ -4,9 +4,9 @@
 			<h5 class="card-title">Game logs</h5>
 			<hr />
 			<div class="log" v-for="log of logs">
-				<h3 class="title">
+				<h6 class="title">
 					{{ log.action }}
-				</h3>
+				</h6>
 				<span class="time">
 					<i class="fal fa-clock"></i>
 					{{
