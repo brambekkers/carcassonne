@@ -9,6 +9,7 @@ export default {
         tileGap: 4,
         newTile: {
             dir: 0,
+            meeplePos: { x: null, y: null }
         },
         originalTiles: Tiles,
         // In game
@@ -68,11 +69,27 @@ export default {
                 // rotate array
                 state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
 
+                // Rotate all meepleSpots
+                for (const m of state.nextTile.meepleSpots) {
+                    m.pos = await dispatch('rotateMeeplePos', { obj: m.pos, dir })
+                }
+
                 // Check for new spots
                 await dispatch('clearMatches')
                 await dispatch('setNeighborsMatches')
                 resolve()
             });
+        },
+        rotateMeeplePos({ }, { obj, dir }) {
+            if (dir > 0) {
+                return {
+                    y: obj.x, x: (5 - obj.y - 1)
+                }
+            } else {
+                return {
+                    x: obj.y, y: (5 - obj.x - 1)
+                }
+            }
         },
         tranpose({ }, { array, dir }) {
             return new Promise((resolve) => {

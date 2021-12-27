@@ -6,18 +6,14 @@
 		@mouseleave="hover = false"
 	>
 		<div class="tile" :style="tileStyles" v-if="!tile.empty">
-			<TileSpots :format="tile.format" :dir="tile.dir" :x="tile.x" :y="tile.y" />
+			<TileSpots :tile="tile" :dir="tile.dir" :x="tile.x" :y="tile.y" />
 		</div>
 
 		<!-- Ghost tile that spawns if tile is hoverd -->
-		<GhostTile
-			:tile="tile"
-			v-else-if="nextTile && hover && tile.neighbor"
-			:x="tile.x"
-			:y="tile.y"
-		/>
+		<GhostTile :tile="tile" v-else-if="nextTile && hover && tile.neighbor" :x="tile.x" :y="tile.y" />
 
-		<div v-else-if="emptyTiles" :style="backStyles" class="tile back" />
+		<!-- Backside of tile -->
+		<div v-else-if="emptyTiles" class="tile back" />
 	</div>
 	<NeighborTile
 		v-else-if="tile.neighbor && currentPlayer?.type === 'person'"
@@ -29,57 +25,57 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import TileSpots from "@/components/board/TileSpots.vue";
-import GhostTile from "@/components/board/GhostTile.vue";
-import NeighborTile from "@/components/board/NeighborTile.vue";
-export default {
-	props: ["tile"],
-	data() {
-		return {
-			timeout: null,
-			hover: false,
-		};
-	},
-	components: { TileSpots, GhostTile, NeighborTile },
-	computed: {
-		...mapGetters([
-			"tileColors",
-			"nextTile",
-			"tileSize",
-			"emptyTiles",
-			"currentPlayer",
-		]),
-
-		tileStyles() {
+	import { mapGetters } from "vuex";
+	import TileSpots from "@/components/board/TileSpots.vue";
+	import GhostTile from "@/components/board/GhostTile.vue";
+	import NeighborTile from "@/components/board/NeighborTile.vue";
+	export default {
+		props: ["tile"],
+		data() {
 			return {
-				backgroundImage: `url('/${this.tile.src}')`,
-				transform: `rotate(${this.tile.dir}deg)`,
+				timeout: null,
+				hover: false
 			};
 		},
-	},
-	methods: {
-		// To do: Check if this is the most efficient methode
-		hoverTile() {
-			// Clear timeout
-			if (this.timeout) {
-				clearTimeout(this.timeout);
+		components: { TileSpots, GhostTile, NeighborTile },
+		computed: {
+			...mapGetters([
+				"tileColors",
+				"nextTile",
+				"tileSize",
+				"emptyTiles",
+				"currentPlayer"
+			]),
+
+			tileStyles() {
+				return {
+					backgroundImage: `url('/${this.tile.src}')`,
+					transform: `rotate(${this.tile.dir}deg)`
+				};
 			}
-
-			this.hover = true;
-
-			// setTimeout
-			this.timeout = setTimeout(() => {
-				this.hover = false;
-			}, 1000);
 		},
-	},
-};
+		methods: {
+			// To do: Check if this is the most efficient methode
+			hoverTile() {
+				// Clear timeout
+				if (this.timeout) {
+					clearTimeout(this.timeout);
+				}
+
+				this.hover = true;
+
+				// setTimeout
+				this.timeout = setTimeout(() => {
+					this.hover = false;
+				}, 1000);
+			}
+		}
+	};
 </script>
 
 <style lang="scss" scoped>
-.match {
-	background: rgba(0, 255, 0, 0.1);
-	border-radius: 5px;
-}
+	.match {
+		background: rgba(0, 255, 0, 0.1);
+		border-radius: 5px;
+	}
 </style>
