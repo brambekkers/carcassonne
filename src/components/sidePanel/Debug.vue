@@ -5,6 +5,7 @@
 			<hr />
 			<p>Tiles left: {{ tiles.length }}</p>
 			<p>Current Player: {{ currentPlayer?.name }}({{ CPNum }})</p>
+			<p>Game State: {{ gameState }}</p>
 		</div>
 	</CardSM>
 	<CardSM>
@@ -68,7 +69,14 @@ export default {
 	},
 	components: { CardSM },
 	computed: {
-		...mapGetters(["debug", "tiles", "currentPlayer", "CPNum", "perspective"]),
+		...mapGetters([
+			"debug",
+			"tiles",
+			"currentPlayer",
+			"CPNum",
+			"perspective",
+			"gameState",
+		]),
 	},
 	methods: {
 		toggle(bool) {

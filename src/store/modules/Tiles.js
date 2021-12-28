@@ -9,7 +9,11 @@ export default {
         tileGap: 4,
         newTile: {
             dir: 0,
-            meeplePos: { x: null, y: null }
+
+            // Meeple
+            meeplePos: { x: null, y: null },
+            meepleOwner: null,
+            meepleType: null
         },
         originalTiles: Tiles,
         // In game
@@ -59,24 +63,26 @@ export default {
                 player: getters.CPNum,
             });
             commit('lastTile', { x, y })
-            dispatch('nextTurn')
+            commit('gameState', "meeple")
 
         },
         async rotateTile({ state, dispatch }, dir) {
             return new Promise(async (resolve) => {
-                // set new dir
-                state.nextTile.dir += dir
-                // rotate array
-                state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
+                if (state.nextTile) {
+                    // set new dir
+                    state.nextTile.dir += dir
+                    // rotate array
+                    state.nextTile.format = _.cloneDeep(await dispatch('tranpose', { array: state.nextTile.format, dir }))
 
-                // Rotate all meepleSpots
-                for (const m of state.nextTile.meepleSpots) {
-                    m.pos = await dispatch('rotateMeeplePos', { obj: m.pos, dir })
+                    // Rotate all meepleSpots
+                    for (const m of state.nextTile.meepleSpots) {
+                        m.pos = await dispatch('rotateMeeplePos', { obj: m.pos, dir })
+                    }
+
+                    // Check for new spots
+                    await dispatch('clearMatches')
+                    await dispatch('setNeighborsMatches')
                 }
-
-                // Check for new spots
-                await dispatch('clearMatches')
-                await dispatch('setNeighborsMatches')
                 resolve()
             });
         },
