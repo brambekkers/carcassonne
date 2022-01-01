@@ -1,5 +1,5 @@
 <template>
-	<div class="container-fixed">
+	<div class="tileContainer container-fixed" :style="containerStyles" :class="containerRotate">
 		<div class="tile ghostTile" :style="tileStyles" @click.self="place" />
 		<img
 			class="rotateLeft"
@@ -17,36 +17,40 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+	import { mapActions, mapGetters } from "vuex";
 
-export default {
-	props: ["tile", "x", "y"],
-	computed: {
-		...mapGetters(["tileSize", "nextTile", "nextTilePlaced"]),
-
-		tileStyles() {
-			return {
-				width: `${this.tileSize}px`,
-				height: `${this.tileSize}px`,
-				backgroundImage: `url('/${this.nextTile.src}')`,
-				transform: `rotate(${this.nextTile.dir}deg)`,
-			};
-		},
-	},
-	methods: {
-		...mapActions(["placeGhostTile", "rotateTile"]),
-		place() {
-			if (this.tile.match) {
-				this.placeGhostTile({ x: this.x, y: this.y });
+	export default {
+		props: ["tile", "x", "y"],
+		computed: {
+			...mapGetters(["tileSize", "nextTile", "nextTilePlaced"]),
+			containerStyles() {
+				return {
+					transform: `rotate(${this.nextTile.dir}deg)`
+				};
+			},
+			tileStyles() {
+				return {
+					width: `${this.tileSize}px`,
+					height: `${this.tileSize}px`,
+					backgroundImage: `url('/${this.nextTile.src}')`
+				};
+			},
+			containerRotate() {
+				return `container-rotate-${this.nextTile.dir % 360}`;
 			}
 		},
-	},
-};
+		methods: {
+			...mapActions(["placeGhostTile", "rotateTile"]),
+			place() {
+				if (this.tile.match) {
+					this.placeGhostTile({ x: this.x, y: this.y });
+				}
+			}
+		}
+	};
 </script>
 
 <style lang="scss" scoped>
-.container-fixed {
-	position: relative;
 	.rotateLeft,
 	.rotateRight {
 		position: absolute;
@@ -68,5 +72,4 @@ export default {
 			transform: rotate(-30deg);
 		}
 	}
-}
 </style>

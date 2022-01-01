@@ -1,100 +1,78 @@
 <template>
 	<!-- Tiles that are placed -->
-	<div
-		class="tileContainer"
-		v-if="!tile.empty || tile.neighbor & (hover || ghostTilePlaced) || emptyTiles"
-		@mouseleave="hover = false"
-	>
-		<div class="tile" :style="tileStyles" v-if="!tile.empty">
+	<div class="tileContainer" :style="containerStyles" :class="containerRotate">
+		<div
+			class="tile"
+			:style="tileStyles"
+			v-if="!tile.empty"
+			:class="{ghostTile: isGhost}"
+			@click="place"
+		>
 			<TileSpots :tile="tile" :dir="tile.dir" :x="tile.x" :y="tile.y" />
 		</div>
-
-		<!-- Ghost tile that spawns if tile is hoverd -->
-		<GhostTile
-			:tile="tile"
-			v-else-if="nextTile && tile.neighbor && (ghostTilePlaced || hover)"
-			:x="tile.x"
-			:y="tile.y"
-		/>
-
-		<!-- Backside of tile -->
-		<div v-else-if="emptyTiles" class="tile back" />
 	</div>
-	<NeighborTile
-		v-else-if="
-			tile.neighbor &&
-			currentPlayer?.type === 'person' &&
-			gameState === 'tile' &&
-			!nextTilePlaced
-		"
-		:tile="tile"
-		:hover="hover"
-		@mouseover="hoverTile"
-		@mouseleave="hover = false"
-	/>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import TileSpots from "@/components/board/TileSpots.vue";
-import GhostTile from "@/components/board/GhostTile.vue";
-import NeighborTile from "@/components/board/NeighborTile.vue";
-export default {
-	props: ["tile"],
-	data() {
-		return {
-			timeout: null,
-			hover: false,
-		};
-	},
-	components: { TileSpots, GhostTile, NeighborTile },
-	computed: {
-		...mapGetters([
-			"tileColors",
-			"nextTile",
-			"tileSize",
-			"emptyTiles",
-			"currentPlayer",
-			"gameState",
-			"nextTilePos",
-			"nextTilePlaced",
-		]),
-		ghostTilePlaced() {
-			return (
-				this.nextTilePlaced &&
-				this.nextTilePos.x === this.tile.x &&
-				this.nextTilePos.y === this.tile.y
-			);
-		},
-		tileStyles() {
+	import { mapGetters, mapActions } from "vuex";
+	import TileSpots from "@/components/board/TileSpots.vue";
+	import GhostTile from "@/components/board/GhostTile.vue";
+	import NeighborTile from "@/components/board/NeighborTile.vue";
+	export default {
+		props: ["tile", "spot", "isGhost"],
+		data() {
 			return {
-				backgroundImage: `url('/${this.tile.src}')`,
-				transform: `rotate(${this.tile.dir}deg)`,
+				timeout: null,
+				hover: false
 			};
 		},
-	},
-	methods: {
-		// To do: Check if this is the most efficient methode
-		hoverTile() {
-			// Clear timeout
-			if (this.timeout) {
-				clearTimeout(this.timeout);
+		components: { TileSpots, GhostTile, NeighborTile },
+		computed: {
+			...mapGetters([
+				"tileColors",
+				"nextTile",
+				"tileSize",
+				"emptyTiles",
+				"currentPlayer",
+				"gameState",
+				"nextTilePos",
+				"nextTilePlaced"
+			]),
+			ghostTilePlaced() {
+				return (
+					this.nextTilePlaced &&
+					this.nextTilePos.x === this.tile.x &&
+					this.nextTilePos.y === this.tile.y
+				);
+			},
+			containerStyles() {
+				return {
+					transform: `rotate(${this.tile.dir}deg)`
+				};
+			},
+			tileStyles() {
+				return {
+					backgroundImage: `url('/${this.tile.src}')`
+				};
+			},
+			containerRotate() {
+				return `container-rotate-${this.tile.dir % 360}`;
 			}
-
-			this.hover = true;
-
-			// setTimeout
-			this.timeout = setTimeout(() => {
-				this.hover = false;
-			}, 1000);
 		},
-	},
-};
+		methods: {
+			...mapActions(["placeGhostTile"]),
+			place() {
+				if (this.spot?.match && this.isGhost) {
+					this.placeGhostTile({ x: this.spot.x, y: this.spot.y });
+				}
+			}
+		}
+	};
 </script>
 
 <style lang="scss" scoped>
-.match {
-	background: rgba(0, 255, 0, 0.1);
-	border-radius: 5px;
-}
+	.match {
+		background: rgba(0, 255, 0, 0.1);
+		border-radius: 5px;
+	}
 </style>
