@@ -38,6 +38,8 @@ export default {
 			"tileSize",
 			"tileGap",
 			"perspective",
+			"gameState",
+			"nextTilePlaced",
 		]),
 		boardStyles() {
 			return {
@@ -74,7 +76,9 @@ export default {
 			this.sb.setPosition({ x, y });
 		},
 		rotate(e) {
-			if (e.key == "r") {
+			const gs = this.gameState === "tile";
+			const ntp = !this.nextTilePlaced;
+			if (e.key == "r" && gs && ntp) {
 				this.rotateTile(90);
 			}
 		},
@@ -127,7 +131,6 @@ export default {
 		document.addEventListener("wheel", this.zoom);
 	},
 	beforeUnmount() {
-		console.log("ik draai");
 		this.sb.destroy();
 		document.removeEventListener("keypress", this.rotate);
 	},

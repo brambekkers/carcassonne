@@ -2,7 +2,7 @@
 	<!-- Tiles that are placed -->
 	<div
 		class="tileContainer"
-		v-if="!tile.empty || tile.neighbor & hover || emptyTiles"
+		v-if="!tile.empty || tile.neighbor & (hover || ghostTilePlaced) || emptyTiles"
 		@mouseleave="hover = false"
 	>
 		<div class="tile" :style="tileStyles" v-if="!tile.empty">
@@ -12,7 +12,7 @@
 		<!-- Ghost tile that spawns if tile is hoverd -->
 		<GhostTile
 			:tile="tile"
-			v-else-if="nextTile && hover && tile.neighbor"
+			v-else-if="nextTile && tile.neighbor && (ghostTilePlaced || hover)"
 			:x="tile.x"
 			:y="tile.y"
 		/>
@@ -22,7 +22,10 @@
 	</div>
 	<NeighborTile
 		v-else-if="
-			tile.neighbor && currentPlayer?.type === 'person' && gameState === 'tile'
+			tile.neighbor &&
+			currentPlayer?.type === 'person' &&
+			gameState === 'tile' &&
+			!nextTilePlaced
 		"
 		:tile="tile"
 		:hover="hover"
@@ -53,8 +56,16 @@ export default {
 			"emptyTiles",
 			"currentPlayer",
 			"gameState",
+			"nextTilePos",
+			"nextTilePlaced",
 		]),
-
+		ghostTilePlaced() {
+			return (
+				this.nextTilePlaced &&
+				this.nextTilePos.x === this.tile.x &&
+				this.nextTilePos.y === this.tile.y
+			);
+		},
 		tileStyles() {
 			return {
 				backgroundImage: `url('/${this.tile.src}')`,

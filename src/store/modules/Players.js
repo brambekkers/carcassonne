@@ -31,7 +31,8 @@ export default {
                     bigMeeples: 1,
                     points: 0,
                     badge,
-                    color
+                    color,
+                    id: Math.floor(Math.random() * Math.pow(10, 15))
                 })
             }
         },

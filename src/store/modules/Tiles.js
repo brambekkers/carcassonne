@@ -16,8 +16,12 @@ export default {
             meepleType: null
         },
         originalTiles: Tiles,
+
         // In game
         nextTile: null,
+        nextTilePlaced: false,
+        nextTilePos: { x: null, y: null },
+
         lastTile: { x: null, y: null }
     },
     getters: {
@@ -27,11 +31,12 @@ export default {
         tileGap: (s) => s.tileGap,
         newTile: (s) => s.newTile,
         nextTile: (s) => s.nextTile,
+        nextTilePlaced: (s) => s.nextTilePlaced,
+        nextTilePos: (s) => s.nextTilePos,
         lastTile: (s) => s.lastTile
     },
     mutations: {
         tiles: (s, v) => s.tiles = v,
-        nextTile: (s, v) => s.nextTile = v,
         lastTile: (s, v) => s.lastTile = v,
     },
     actions: {
@@ -46,25 +51,36 @@ export default {
             })
             commit('tiles', newTiles)
         },
-        setNextTile({ state, commit }) {
+        setNextTile({ state }) {
             if (state.tiles?.length && !state.nextTile) {
-                commit('nextTile', state.tiles.splice(_.random(state.tiles.length - 1), 1)[0]);
+                state.nextTile = state.tiles.splice(_.random(state.tiles.length - 1), 1)[0];
             } else {
-                // game stops...
+                console.log('No tiles left')
             }
         },
-        placeTile({ commit, getters, dispatch }, { x, y }) {
+        placeGhostTile({ state }, { x, y }) {
+            state.nextTilePlaced = true;
+            state.nextTilePos = { x, y };
+        },
+        resetGhostTile({ state }) {
+            state.nextTilePlaced = false;
+            state.nextTilePos = { x: null, y: null };
+        },
+        placeTile({ state, commit, getters },) {
+            const x = state.nextTilePos.x
+            const y = state.nextTilePos.y
             const tile = _.cloneDeep(getters.nextTile)
             getters.board[y][x] = { ...getters.board[y][x], ...tile, neighbor: false, empty: false }
-            commit('nextTile', null);
+
+            // Reset NextTIle
+            state.nextTile = null;
+            // Make log
             commit('addLog', {
                 action: 'Place Tile',
                 msg: `${getters.currentPlayer?.name} placed a tile on x:${x}, y:${y}.`,
                 player: getters.CPNum,
             });
             commit('lastTile', { x, y })
-            commit('gameState', "meeple")
-
         },
         async rotateTile({ state, dispatch }, dir) {
             return new Promise(async (resolve) => {
