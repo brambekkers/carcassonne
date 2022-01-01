@@ -16,8 +16,6 @@
 <script>
 	import { mapGetters, mapActions } from "vuex";
 	import TileSpots from "@/components/board/TileSpots.vue";
-	import GhostTile from "@/components/board/GhostTile.vue";
-	import NeighborTile from "@/components/board/NeighborTile.vue";
 	export default {
 		props: ["tile", "spot", "isGhost"],
 		data() {
@@ -26,18 +24,9 @@
 				hover: false
 			};
 		},
-		components: { TileSpots, GhostTile, NeighborTile },
+		components: { TileSpots },
 		computed: {
-			...mapGetters([
-				"tileColors",
-				"nextTile",
-				"tileSize",
-				"emptyTiles",
-				"currentPlayer",
-				"gameState",
-				"nextTilePos",
-				"nextTilePlaced"
-			]),
+			...mapGetters(["nextTile", "nextTilePos", "nextTilePlaced"]),
 			ghostTilePlaced() {
 				return (
 					this.nextTilePlaced &&
@@ -69,10 +58,3 @@
 		}
 	};
 </script>
-
-<style lang="scss" scoped>
-	.match {
-		background: rgba(0, 255, 0, 0.1);
-		border-radius: 5px;
-	}
-</style>

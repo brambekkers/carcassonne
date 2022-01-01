@@ -32,7 +32,6 @@
 
 <script>
 	import { mapGetters } from "vuex";
-	import TileSpots from "@/components/board/TileSpots.vue";
 	import Tile from "@/components/board/Tile.vue";
 	import NeighborTile from "@/components/board/NeighborTile.vue";
 	export default {
@@ -43,12 +42,10 @@
 				hover: false
 			};
 		},
-		components: { Tile, TileSpots, NeighborTile },
+		components: { Tile, NeighborTile },
 		computed: {
 			...mapGetters([
-				"tileColors",
 				"nextTile",
-				"tileSize",
 				"emptyTiles",
 				"currentPlayer",
 				"gameState",
@@ -61,16 +58,6 @@
 					this.nextTilePos.x === this.tile.x &&
 					this.nextTilePos.y === this.tile.y
 				);
-			},
-			containerStyles() {
-				return {
-					transform: `rotate(${this.tile.dir}deg)`
-				};
-			},
-			tileStyles() {
-				return {
-					backgroundImage: `url('/${this.tile.src}')`
-				};
 			}
 		},
 		methods: {
@@ -93,8 +80,4 @@
 </script>
 
 <style lang="scss" scoped>
-	.match {
-		background: rgba(0, 255, 0, 0.1);
-		border-radius: 5px;
-	}
 </style>
